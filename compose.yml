@@ -123,7 +123,7 @@ services:
         - NODE_ENV=production
 
   neo4j:
-    image: neo4j:5
+    image: neo4j:2026.04.0
     restart: always
     ports:
       - "7474:7474"
