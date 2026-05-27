@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@100..900&family=Fira+Code:wght@300..700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+      @theme inline {
+        --color-background: var(--background);
+        --color-foreground: var(--foreground);
+        --color-primary: var(--primary);
+        --color-primary-foreground: var(--primary-foreground);
+        --color-secondary: var(--secondary);
+        --color-secondary-foreground: var(--secondary-foreground);
+        --color-tertiary: var(--tertiary);
+        --color-muted: var(--muted);
+        --color-muted-foreground: var(--muted-foreground);
+        --color-accent: var(--accent);
+        --color-destructive: var(--destructive);
+        --color-card: var(--card);
+        --color-card-foreground: var(--card-foreground);
+        --color-border: var(--border);
+        --color-input: var(--input);
+        --color-ring: var(--ring);
+        --radius-sm: calc(var(--radius) - 4px);
+        --radius-md: calc(var(--radius) - 2px);
+        --radius-lg: var(--radius);
+        --font-family-sans: var(--font-sans);
+        --font-family-heading: var(--font-heading);
+      }
+      :root { --foreground: #0f172a;
+        --secondary: #eff6ff;
+        --input: #e2e8f0;
+        --font-sans: 'Inter', sans-serif;
+        --accent: #e0f2fe;
+        --secondary-foreground: #1e3a8a;
+        --card-foreground: #0f172a;
+        --border: #e2e8f0;
+        --muted-foreground: #64748b;
+        --primary: #2563eb;
+        --background: #f8fafc;
+        --tertiary: #38bdf8;
+        --destructive: #ef4444;
+        --radius: 0.75rem;
+        --ring: #2563eb;
+        --primary-foreground: #ffffff;
+        --card: #ffffff;
+        --font-heading: 'Inter', sans-serif;
+        --muted: #f1f5f9; }
+    </style>
+  </head>
+  <body>
+<div class="min-h-screen w-full bg-background flex flex-col relative font-sans">
+  
+  <!-- Top Nav (Mobile) -->
+  <header class="lg:hidden flex items-center justify-between p-4 bg-card border-b border-border">
+    <div class="flex items-center">
+      <iconify-icon icon="lucide:activity" class="text-primary text-2xl mr-2"></iconify-icon>
+      <span class="font-heading font-bold text-foreground">MediChat AI</span>
+    </div>
+    <button class="text-foreground p-2"><iconify-icon icon="lucide:menu" class="text-2xl"></iconify-icon></button>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-card border-r border-border flex flex-col hidden md:flex h-screen sticky top-0">
+      <div class="h-16 flex items-center px-6 border-b border-border">
+        <div class="flex items-center gap-2 text-primary font-heading font-bold text-xl">
+          <iconify-icon icon="lucide:activity"></iconify-icon>
+          <span>MediAI</span>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-1">
+        <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-2">Main Menu</p>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+          <iconify-icon icon="lucide:layout-dashboard" class="text-lg"></iconify-icon>
+          Dashboard
+        </a>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+          <iconify-icon icon="lucide:message-circle" class="text-lg"></iconify-icon>
+          AI Consult
+        </a>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+          <iconify-icon icon="lucide:pill" class="text-lg"></iconify-icon>
+          Medicines
+        </a>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg font-medium transition-colors">
+          <iconify-icon icon="lucide:shield-alert" class="text-lg"></iconify-icon>
+          Diseases
+        </a>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+          <iconify-icon icon="lucide:shield-alert" class="text-lg"></iconify-icon>
+          Interactions
+        </a>
+
+        <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-6 mb-2 px-2">Personal</p>
+        <a href="#"
+          class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+          <iconify-icon icon="lucide:bookmark" class="text-lg"></iconify-icon>
+          Saved Items
+        </a>
+      </div>
+    </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-6 py-8 md:py-12 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Left Column (Content) -->
+    <div class="flex-1 flex flex-col gap-8">
+      
+      <!-- Disease Overview -->
+      <section class="flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <span class="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">Endocrinology</span>
+          <span class="bg-muted text-muted-foreground px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase flex items-center gap-1">
+            <iconify-icon icon="lucide:circle-alert" class="text-base"></iconify-icon> Chronic
+          </span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-heading font-bold text-foreground leading-tight">Type 2 Diabetes Mellitus</h1>
+        <p class="text-lg text-muted-foreground leading-relaxed">
+          A chronic condition that affects the way your body metabolizes sugar (glucose) — an important source of fuel for your body. With type 2 diabetes, your body either resists the effects of insulin or doesn't produce enough insulin to maintain normal glucose levels.
+        </p>
+      </section>
+
+      <!-- Warning Signs -->
+      <section class="bg-destructive/10 border border-destructive/20 rounded-xl p-6 flex gap-4 items-start">
+        <div class="bg-destructive text-destructive-foreground p-3 rounded-full flex-shrink-0">
+          <iconify-icon icon="lucide:flame" class="text-xl"></iconify-icon>
+        </div>
+        <div>
+          <h3 class="text-lg font-heading font-semibold text-destructive mb-2">Immediate Warning Signs</h3>
+          <p class="text-sm text-foreground/80 mb-3">Seek emergency medical care if you experience any of the following symptoms, which could indicate diabetic ketoacidosis or hyperosmolar hyperglycemic state:</p>
+          <ul class="grid sm:grid-cols-2 gap-2 text-sm text-foreground/90">
+            <li class="flex items-center gap-2"><iconify-icon icon="lucide:circle-alert" class="text-destructive"></iconify-icon> Fruity-scented breath</li>
+            <li class="flex items-center gap-2"><iconify-icon icon="lucide:circle-alert" class="text-destructive"></iconify-icon> Confusion or delirium</li>
+            <li class="flex items-center gap-2"><iconify-icon icon="lucide:circle-alert" class="text-destructive"></iconify-icon> Nausea and vomiting</li>
+            <li class="flex items-center gap-2"><iconify-icon icon="lucide:circle-alert" class="text-destructive"></iconify-icon> Shortness of breath</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Symptoms -->
+      <section class="bg-card rounded-xl p-6 md:p-8 shadow-sm border border-border">
+        <h2 class="text-2xl font-heading font-semibold text-foreground mb-6 flex items-center gap-2">
+          <iconify-icon icon="lucide:activity" class="text-primary"></iconify-icon> Common Symptoms
+        </h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-muted/50 border border-border/50">
+            <iconify-icon icon="lucide:droplets" class="text-primary text-xl mt-0.5"></iconify-icon>
+            <div>
+              <h4 class="font-medium text-foreground">Increased Thirst & Urination</h4>
+              <p class="text-sm text-muted-foreground mt-1">Excess sugar building up in your bloodstream causes fluid to be pulled from tissues.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-muted/50 border border-border/50">
+            <iconify-icon icon="lucide:battery-warning" class="text-primary text-xl mt-0.5"></iconify-icon>
+            <div>
+              <h4 class="font-medium text-foreground">Increased Hunger & Fatigue</h4>
+              <p class="text-sm text-muted-foreground mt-1">Without enough insulin to move sugar into cells, your muscles and organs become energy-depleted.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-muted/50 border border-border/50">
+            <iconify-icon icon="lucide:eye" class="text-primary text-xl mt-0.5"></iconify-icon>
+            <div>
+              <h4 class="font-medium text-foreground">Blurred Vision</h4>
+              <p class="text-sm text-muted-foreground mt-1">If blood sugar is too high, fluid may be pulled from the lenses of your eyes.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-muted/50 border border-border/50">
+            <iconify-icon icon="lucide:bandage" class="text-primary text-xl mt-0.5"></iconify-icon>
+            <div>
+              <h4 class="font-medium text-foreground">Slow-healing Sores</h4>
+              <p class="text-sm text-muted-foreground mt-1">High blood sugar can affect blood flow and cause nerve damage, making healing harder.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Causes & Prevention -->
+      <div class="grid md:grid-cols-2 gap-8">
+        <section class="bg-card rounded-xl p-6 shadow-sm border border-border">
+          <h2 class="text-xl font-heading font-semibold text-foreground mb-4 flex items-center gap-2">
+            <iconify-icon icon="lucide:microscope" class="text-primary"></iconify-icon> Causes
+          </h2>
+          <ul class="space-y-3 text-muted-foreground text-sm">
+            <li class="flex gap-2"><iconify-icon icon="lucide:check" class="text-primary flex-shrink-0 mt-0.5"></iconify-icon> <span><strong>Insulin Resistance:</strong> Muscle, liver and fat cells don't use insulin properly.</span></li>
+            <li class="flex gap-2"><iconify-icon icon="lucide:check" class="text-primary flex-shrink-0 mt-0.5"></iconify-icon> <span><strong>Genetics:</strong> Family history increases risk significantly.</span></li>
+            <li class="flex gap-2"><iconify-icon icon="lucide:check" class="text-primary flex-shrink-0 mt-0.5"></iconify-icon> <span><strong>Weight:</strong> Being overweight is a primary risk factor.</span></li>
+            <li class="flex gap-2"><iconify-icon icon="lucide:check" class="text-primary flex-shrink-0 mt-0.5"></iconify-icon> <span><strong>Inactivity:</strong> Less physical activity means higher risk.</span></li>
+          </ul>
+        </section>
+
+        <section class="bg-card rounded-xl p-6 shadow-sm border border-border">
+          <h2 class="text-xl font-heading font-semibold text-foreground mb-4 flex items-center gap-2">
+            <iconify-icon icon="lucide:shield-check" class="text-primary"></iconify-icon> Prevention
+          </h2>
+          <ul class="space-y-3 text-muted-foreground text-sm">
+            <li class="flex gap-2"><iconify-icon icon="lucide:check" class="text-primary flex-shrink-0 mt-0.5"></iconify-icon> <span><strong>Healthy Diet:</strong> Focus on lower fat, calories and higher fiber.</span></li>
+            <li class="flex gap-2"><iconify-icon icon="lucide:check" class="text-primary flex-shrink-0 mt-0.5"></iconify-icon> <span><strong>Active Lifestyle:</strong> Aim for 150 minutes of moderate aerobic activity weekly.</span></li>
+            <li class="flex gap-2"><iconify-icon icon="lucide:check" class="text-primary flex-shrink-0 mt-0.5"></iconify-icon> <span><strong>Weight Loss:</strong> Losing 7-10% of body weight can reduce risk.</span></li>
+            <li class="flex gap-2"><iconify-icon icon="lucide:check" class="text-primary flex-shrink-0 mt-0.5"></iconify-icon> <span><strong>Avoid Inactivity:</strong> Try not to sit still for long periods.</span></li>
+          </ul>
+        </section>
+      </div>
+
+    </div>
+
+    <!-- Right Column (Sidebar) -->
+    <aside class="w-full lg:w-80 flex flex-col gap-6">
+      
+      <!-- Recommended Medicines -->
+      <div class="bg-card rounded-xl p-6 shadow-sm border border-border">
+        <h3 class="text-lg font-heading font-semibold text-foreground mb-4">Recommended Medicines</h3>
+        <p class="text-xs text-muted-foreground mb-4 pb-4 border-b border-border">Always consult your healthcare provider before starting any medication.</p>
+        
+        <div class="space-y-4">
+          <div class="flex gap-3 items-center">
+            <div class="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-primary flex-shrink-0">
+              <iconify-icon icon="lucide:pill" class="text-xl"></iconify-icon>
+            </div>
+            <div>
+              <h4 class="font-medium text-sm text-foreground">Metformin</h4>
+              <p class="text-xs text-muted-foreground">Biguanides class</p>
+            </div>
+          </div>
+          <div class="flex gap-3 items-center">
+            <div class="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-primary flex-shrink-0">
+              <iconify-icon icon="lucide:pill" class="text-xl"></iconify-icon>
+            </div>
+            <div>
+              <h4 class="font-medium text-sm text-foreground">Glipizide</h4>
+              <p class="text-xs text-muted-foreground">Sulfonylureas class</p>
+            </div>
+          </div>
+          <div class="flex gap-3 items-center">
+            <div class="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-primary flex-shrink-0">
+              <iconify-icon icon="lucide:syringe" class="text-xl"></iconify-icon>
+            </div>
+            <div>
+              <h4 class="font-medium text-sm text-foreground">Insulin Therapy</h4>
+              <p class="text-xs text-muted-foreground">As prescribed</p>
+            </div>
+          </div>
+        </div>
+        <button class="w-full mt-6 text-sm text-primary font-medium hover:underline">View full medication list</button>
+      </div>
+
+      <!-- Related Diseases -->
+      <div class="bg-card rounded-xl p-6 shadow-sm border border-border">
+        <h3 class="text-lg font-heading font-semibold text-foreground mb-4">Related Conditions</h3>
+        <div class="flex flex-wrap gap-2">
+          <a href="#" class="px-3 py-1.5 bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground text-xs font-medium rounded-full transition-colors">Type 1 Diabetes</a>
+          <a href="#" class="px-3 py-1.5 bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground text-xs font-medium rounded-full transition-colors">Prediabetes</a>
+          <a href="#" class="px-3 py-1.5 bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground text-xs font-medium rounded-full transition-colors">Hypertension</a>
+          <a href="#" class="px-3 py-1.5 bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground text-xs font-medium rounded-full transition-colors">Obesity</a>
+          <a href="#" class="px-3 py-1.5 bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground text-xs font-medium rounded-full transition-colors">Neuropathy</a>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- Ask AI Assistant CTA -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <button class="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/30 rounded-full py-3 px-6 flex items-center gap-3 transition-transform hover:scale-105">
+      <iconify-icon icon="lucide:bot" class="text-2xl"></iconify-icon>
+      <div class="text-left">
+        <div class="text-sm font-bold">Ask AI Assistant</div>
+        <div class="text-xs text-primary-foreground/80 font-medium">Get instant medical answers</div>
+      </div>
+    </button>
+  </div>
+
+</div>
+</body></html>

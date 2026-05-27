@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@100..900&family=Fira+Code:wght@300..700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+      @theme inline {
+        --color-background: var(--background);
+        --color-foreground: var(--foreground);
+        --color-primary: var(--primary);
+        --color-primary-foreground: var(--primary-foreground);
+        --color-secondary: var(--secondary);
+        --color-secondary-foreground: var(--secondary-foreground);
+        --color-tertiary: var(--tertiary);
+        --color-muted: var(--muted);
+        --color-muted-foreground: var(--muted-foreground);
+        --color-accent: var(--accent);
+        --color-destructive: var(--destructive);
+        --color-card: var(--card);
+        --color-card-foreground: var(--card-foreground);
+        --color-border: var(--border);
+        --color-input: var(--input);
+        --color-ring: var(--ring);
+        --radius-sm: calc(var(--radius) - 4px);
+        --radius-md: calc(var(--radius) - 2px);
+        --radius-lg: var(--radius);
+        --font-family-sans: var(--font-sans);
+        --font-family-heading: var(--font-heading);
+      }
+      :root { --card-foreground: #0F172A;
+        --tertiary: #38bdf8;
+        --background: #F8FAFC;
+        --ring: #2563EB;
+        --border: #E2E8F0;
+        --radius: 0.75rem;
+        --font-heading: Inter, sans-serif;
+        --secondary-foreground: #0F172A;
+        --accent: #F1F5F9;
+        --destructive: #EF4444;
+        --muted: #F1F5F9;
+        --secondary: #F1F5F9;
+        --primary: #2563EB;
+        --card: #FFFFFF;
+        --primary-foreground: #FFFFFF;
+        --input: #E2E8F0;
+        --font-sans: Inter, sans-serif;
+        --foreground: #0F172A;
+        --muted-foreground: #64748b; }
+    </style>
+  </head>
+  <body>
+<div class="min-h-screen w-full bg-background flex flex-row relative font-sans text-foreground">
+  <!-- Admin Sidebar -->
+  <aside class="w-64 bg-card border-r border-border flex flex-col hidden md:flex h-screen sticky top-0">
+    <div class="h-16 flex items-center px-6 border-b border-border">
+      <div class="flex items-center gap-2 text-primary font-heading font-bold text-xl">
+        <iconify-icon icon="lucide:activity"></iconify-icon>
+        <span>MediAI Admin</span>
+      </div>
+    </div>
+    
+    <div class="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-1">
+      <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-2">Overview</p>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+        <iconify-icon icon="lucide:layout-dashboard" class="text-lg"></iconify-icon>
+        Dashboard
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg font-medium transition-colors">
+        <iconify-icon icon="lucide:users" class="text-lg"></iconify-icon>
+        User Management
+      </a>
+      
+      <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-6 mb-2 px-2">Database</p>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+        <iconify-icon icon="lucide:pill" class="text-lg"></iconify-icon>
+        Medicines
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+        <iconify-icon icon="lucide:microscope" class="text-lg"></iconify-icon>
+        Diseases
+      </a>
+      
+      <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-6 mb-2 px-2">System</p>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+        <iconify-icon icon="lucide:bot" class="text-lg"></iconify-icon>
+        AI Logs
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+        <iconify-icon icon="lucide:bar-chart-2" class="text-lg"></iconify-icon>
+        Reports
+      </a>
+    </div>
+    
+    <div class="p-4 border-t border-border">
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+        <iconify-icon icon="lucide:settings" class="text-lg"></iconify-icon>
+        Settings
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 min-w-0 flex flex-col bg-background overflow-y-auto max-h-screen">
+    <!-- Header -->
+    <header class="h-16 border-b border-border bg-card/50 backdrop-blur-md px-8 flex items-center justify-between sticky top-0 z-10">
+      <div class="flex items-center gap-2">
+        <h1 class="text-lg font-heading font-semibold">User Management</h1>
+        <span class="px-2 py-0.5 rounded-md bg-accent text-[10px] font-bold text-muted-foreground uppercase tracking-wider">2,543 Total Users</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2">
+          <iconify-icon icon="lucide:plus"></iconify-icon>
+          <span>Add New User</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="p-8 space-y-6 max-w-7xl mx-auto w-full">
+      <!-- Search and Filter Bar -->
+      <div class="bg-card p-4 rounded-xl border border-border flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div class="relative w-full md:w-96">
+          <iconify-icon icon="lucide:search" class="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></iconify-icon>
+          <input type="text" placeholder="Search by name, email or ID..." class="w-full pl-11 pr-4 py-2.5 rounded-full border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm">
+        </div>
+        <div class="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+          <select class="px-4 py-2.5 rounded-full border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
+            <option>All Roles</option>
+            <option>User</option>
+            <option>Editor</option>
+            <option>Administrator</option>
+          </select>
+          <select class="px-4 py-2.5 rounded-full border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
+            <option>Active Status</option>
+            <option>Active</option>
+            <option>Suspended</option>
+            <option>Inactive</option>
+          </select>
+          <button class="p-2.5 rounded-full border border-border bg-background hover:bg-accent transition-colors">
+            <iconify-icon icon="lucide:sliders-horizontal" class="text-lg"></iconify-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Users Table -->
+      <div class="bg-card rounded-xl border border-border overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-accent/50 border-b border-border">
+                <th class="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">User</th>
+                <th class="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">Role</th>
+                <th class="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">Status</th>
+                <th class="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">Last Login</th>
+                <th class="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-border">
+              <!-- Row 1 -->
+              <tr class="hover:bg-accent/30 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">AJ</div>
+                    <div class="flex flex-col">
+                      <span class="font-medium text-sm">Alex Johnson</span>
+                      <span class="text-xs text-muted-foreground">alex.johnson@example.com</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-accent text-foreground">User</span>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="flex items-center gap-1.5 text-xs font-medium text-green-600">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                    Active
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-sm text-muted-foreground">2 hours ago</td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-primary transition-colors">
+                      <iconify-icon icon="lucide:pencil"></iconify-icon>
+                    </button>
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-primary transition-colors">
+                      <iconify-icon icon="lucide:lock-open"></iconify-icon>
+                    </button>
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-destructive transition-colors">
+                      <iconify-icon icon="lucide:trash-2"></iconify-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <!-- Row 2 -->
+              <tr class="hover:bg-accent/30 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">SM</div>
+                    <div class="flex flex-col">
+                      <span class="font-medium text-sm">Sarah Miller</span>
+                      <span class="text-xs text-muted-foreground">s.miller@mediai.com</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-50 text-blue-700">Editor</span>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="flex items-center gap-1.5 text-xs font-medium text-green-600">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                    Active
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-sm text-muted-foreground">5 mins ago</td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-primary transition-colors">
+                      <iconify-icon icon="lucide:pencil"></iconify-icon>
+                    </button>
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-primary transition-colors">
+                      <iconify-icon icon="lucide:lock-open"></iconify-icon>
+                    </button>
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-destructive transition-colors">
+                      <iconify-icon icon="lucide:trash-2"></iconify-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <!-- Row 3 -->
+              <tr class="hover:bg-accent/30 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-sm">RB</div>
+                    <div class="flex flex-col">
+                      <span class="font-medium text-sm">Robert Brown</span>
+                      <span class="text-xs text-muted-foreground">robert.b@provider.net</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-accent text-foreground">User</span>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="flex items-center gap-1.5 text-xs font-medium text-destructive">
+                    <span class="w-1.5 h-1.5 rounded-full bg-destructive"></span>
+                    Suspended
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-sm text-muted-foreground">3 days ago</td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-primary transition-colors">
+                      <iconify-icon icon="lucide:pencil"></iconify-icon>
+                    </button>
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-primary transition-colors">
+                      <iconify-icon icon="lucide:lock"></iconify-icon>
+                    </button>
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-destructive transition-colors">
+                      <iconify-icon icon="lucide:trash-2"></iconify-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <!-- Row 4 -->
+              <tr class="hover:bg-accent/30 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-sm">EL</div>
+                    <div class="flex flex-col">
+                      <span class="font-medium text-sm">Emma Lee</span>
+                      <span class="text-xs text-muted-foreground">emma.lee@gmail.com</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-accent text-foreground">User</span>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                    <span class="w-1.5 h-1.5 rounded-full bg-muted-foreground"></span>
+                    Inactive
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-sm text-muted-foreground">Never</td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-primary transition-colors">
+                      <iconify-icon icon="lucide:pencil"></iconify-icon>
+                    </button>
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-primary transition-colors">
+                      <iconify-icon icon="lucide:lock-open"></iconify-icon>
+                    </button>
+                    <button class="p-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-destructive transition-colors">
+                      <iconify-icon icon="lucide:trash-2"></iconify-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="px-6 py-4 bg-accent/20 border-t border-border flex items-center justify-between">
+          <span class="text-sm text-muted-foreground">Showing 1-10 of 2,543 users</span>
+          <div class="flex items-center gap-2">
+            <button class="p-2 rounded-lg border border-border bg-card hover:bg-accent disabled:opacity-50" disabled>
+              <iconify-icon icon="lucide:chevron-left"></iconify-icon>
+            </button>
+            <button class="w-8 h-8 rounded-lg bg-primary text-primary-foreground text-sm font-medium">1</button>
+            <button class="w-8 h-8 rounded-lg bg-card border border-border hover:bg-accent text-sm font-medium">2</button>
+            <button class="w-8 h-8 rounded-lg bg-card border border-border hover:bg-accent text-sm font-medium">3</button>
+            <span class="px-1">...</span>
+            <button class="w-8 h-8 rounded-lg bg-card border border-border hover:bg-accent text-sm font-medium">254</button>
+            <button class="p-2 rounded-lg border border-border bg-card hover:bg-accent">
+              <iconify-icon icon="lucide:chevron-right"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body></html>

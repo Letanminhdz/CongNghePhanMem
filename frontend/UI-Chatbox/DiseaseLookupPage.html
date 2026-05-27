@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Screen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@100..900&family=Fira+Code:wght@300..700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+  <style type="text/tailwindcss">
+    @import "tailwindcss";
+      @theme inline {
+        --color-background: var(--background);
+        --color-foreground: var(--foreground);
+        --color-primary: var(--primary);
+        --color-primary-foreground: var(--primary-foreground);
+        --color-secondary: var(--secondary);
+        --color-secondary-foreground: var(--secondary-foreground);
+        --color-tertiary: var(--tertiary);
+        --color-muted: var(--muted);
+        --color-muted-foreground: var(--muted-foreground);
+        --color-accent: var(--accent);
+        --color-destructive: var(--destructive);
+        --color-card: var(--card);
+        --color-card-foreground: var(--card-foreground);
+        --color-border: var(--border);
+        --color-input: var(--input);
+        --color-ring: var(--ring);
+        --radius-sm: calc(var(--radius) - 4px);
+        --radius-md: calc(var(--radius) - 2px);
+        --radius-lg: var(--radius);
+        --font-family-sans: var(--font-sans);
+        --font-family-heading: var(--font-heading);
+      }
+      :root { --card-foreground: #0F172A;
+        --tertiary: #38bdf8;
+        --background: #F8FAFC;
+        --ring: #2563EB;
+        --border: #E2E8F0;
+        --radius: 0.75rem;
+        --font-heading: Inter, sans-serif;
+        --secondary-foreground: #0F172A;
+        --accent: #F1F5F9;
+        --destructive: #EF4444;
+        --muted: #F1F5F9;
+        --secondary: #F1F5F9;
+        --primary: #2563EB;
+        --card: #FFFFFF;
+        --primary-foreground: #FFFFFF;
+        --input: #E2E8F0;
+        --font-sans: Inter, sans-serif;
+        --foreground: #0F172A;
+        --muted-foreground: #64748b; }
+    </style>
+</head>
+
+<body>
+  <div class="min-h-screen w-full bg-background flex flex-col relative">
+    <!-- Top Nav (Mobile) -->
+    <header class="lg:hidden flex items-center justify-between p-4 bg-card border-b border-border">
+      <div class="flex items-center">
+        <iconify-icon icon="lucide:activity" class="text-primary text-2xl mr-2"></iconify-icon>
+        <span class="font-heading font-bold text-foreground">MediChat AI</span>
+      </div>
+      <button class="text-foreground p-2"><iconify-icon icon="lucide:menu" class="text-2xl"></iconify-icon></button>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-card border-r border-border flex flex-col hidden md:flex h-screen sticky top-0">
+        <div class="h-16 flex items-center px-6 border-b border-border">
+          <div class="flex items-center gap-2 text-primary font-heading font-bold text-xl">
+            <iconify-icon icon="lucide:activity"></iconify-icon>
+            <span>MediAI</span>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-1">
+          <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-2">Main Menu</p>
+          <a href="#"
+            class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+            <iconify-icon icon="lucide:layout-dashboard" class="text-lg"></iconify-icon>
+            Dashboard
+          </a>
+          <a href="#"
+            class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+            <iconify-icon icon="lucide:message-circle" class="text-lg"></iconify-icon>
+            AI Consult
+          </a>
+          <a href="#"
+            class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+            <iconify-icon icon="lucide:shield-alert" class="text-lg"></iconify-icon>
+            Medicines
+          </a>
+          <a href="#"
+            class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg font-medium transition-colors">
+            <iconify-icon icon="lucide:pill" class="text-lg"></iconify-icon>
+            Diseases
+          </a>
+          <a href="#"
+            class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+            <iconify-icon icon="lucide:shield-alert" class="text-lg"></iconify-icon>
+            Interactions
+          </a>
+
+          <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-6 mb-2 px-2">Personal</p>
+          <a href="#"
+            class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
+            <iconify-icon icon="lucide:bookmark" class="text-lg"></iconify-icon>
+            Saved Items
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 overflow-y-auto p-4 lg:p-8">
+        <div class="max-w-6xl mx-auto">
+
+          <!-- Header & Search -->
+          <div class="mb-8">
+            <h1 class="text-3xl font-heading font-bold text-foreground mb-2">Disease Lookup</h1>
+            <p class="text-muted-foreground mb-8">Search for medical conditions, symptoms, and treatment guidelines.</p>
+
+            <div
+              class="bg-card p-4 rounded-2xl shadow-sm border border-border flex flex-col md:flex-row gap-4 items-center">
+              <div class="relative flex-1 w-full">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground">
+                  <iconify-icon icon="lucide:search" class="text-xl"></iconify-icon>
+                </div>
+                <input type="text"
+                  class="w-full pl-12 pr-4 py-3.5 bg-background border border-input rounded-full text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow text-base"
+                  placeholder="Search by disease name or symptoms...">
+              </div>
+
+              <div class="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+                <button
+                  class="flex-shrink-0 px-4 py-3 bg-secondary text-secondary-foreground rounded-full text-sm font-medium hover:bg-secondary/80 transition-colors flex items-center">
+                  <iconify-icon icon="lucide:filter" class="mr-2"></iconify-icon>
+                  Filters
+                </button>
+                <button
+                  class="flex-shrink-0 px-4 py-3 bg-secondary text-secondary-foreground rounded-full text-sm font-medium hover:bg-secondary/80 transition-colors flex items-center">
+                  <iconify-icon icon="lucide:activity" class="mr-2"></iconify-icon>
+                  By Symptom
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categories / Quick Filters -->
+          <div class="flex flex-wrap gap-2 mb-8">
+            <button class="px-4 py-1.5 bg-primary text-primary-foreground rounded-full text-sm font-medium">All
+              Conditions</button>
+            <button
+              class="px-4 py-1.5 bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-secondary rounded-full text-sm font-medium transition-colors">Cardiovascular</button>
+            <button
+              class="px-4 py-1.5 bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-secondary rounded-full text-sm font-medium transition-colors">Respiratory</button>
+            <button
+              class="px-4 py-1.5 bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-secondary rounded-full text-sm font-medium transition-colors">Neurological</button>
+            <button
+              class="px-4 py-1.5 bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-secondary rounded-full text-sm font-medium transition-colors">Infectious</button>
+          </div>
+
+          <!-- Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Card 1 -->
+            <div
+              class="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow flex flex-col h-full relative group">
+              <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <iconify-icon icon="lucide:heart-pulse" class="text-xl"></iconify-icon>
+                </div>
+                <span
+                  class="px-2.5 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full border border-amber-200">Moderate
+                  Risk</span>
+              </div>
+              <h3
+                class="text-xl font-heading font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                Hypertension</h3>
+              <p class="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
+                A condition in which the force of the blood against the artery walls is too high. Usually defined as
+                blood pressure above 140/90.
+              </p>
+              <div class="flex flex-wrap gap-1.5 mb-6">
+                <span class="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md">Headache</span>
+                <span class="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md">Shortness of
+                  breath</span>
+              </div>
+              <button
+                class="w-full py-2.5 border border-border rounded-xl text-sm font-medium text-foreground hover:bg-secondary hover:text-primary transition-colors mt-auto">
+                View Details
+              </button>
+            </div>
+
+            <!-- Card 2 -->
+            <div
+              class="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow flex flex-col h-full relative group">
+              <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+                  <iconify-icon icon="lucide:wind" class="text-xl"></iconify-icon>
+                </div>
+                <span
+                  class="px-2.5 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full border border-red-200">High
+                  Risk</span>
+              </div>
+              <h3
+                class="text-xl font-heading font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                Asthma</h3>
+              <p class="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
+                A condition in which a person's airways become inflamed, narrow and swell, and produce extra mucus,
+                which makes it difficult to breathe.
+              </p>
+              <div class="flex flex-wrap gap-1.5 mb-6">
+                <span class="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md">Wheezing</span>
+                <span class="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md">Coughing</span>
+              </div>
+              <button
+                class="w-full py-2.5 border border-border rounded-xl text-sm font-medium text-foreground hover:bg-secondary hover:text-primary transition-colors mt-auto">
+                View Details
+              </button>
+            </div>
+
+            <!-- Card 3 -->
+            <div
+              class="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow flex flex-col h-full relative group">
+              <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center">
+                  <iconify-icon icon="lucide:thermometer" class="text-xl"></iconify-icon>
+                </div>
+                <span
+                  class="px-2.5 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full border border-green-200">Low
+                  Risk</span>
+              </div>
+              <h3
+                class="text-xl font-heading font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                Common Cold</h3>
+              <p class="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
+                A common viral infection of the nose and throat. In contrast to the flu, a common cold can be caused by
+                many different types of viruses.
+              </p>
+              <div class="flex flex-wrap gap-1.5 mb-6">
+                <span class="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md">Runny nose</span>
+                <span class="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md">Sore throat</span>
+              </div>
+              <button
+                class="w-full py-2.5 border border-border rounded-xl text-sm font-medium text-foreground hover:bg-secondary hover:text-primary transition-colors mt-auto">
+                View Details
+              </button>
+            </div>
+
+            <!-- Card 4 -->
+            <div
+              class="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow flex flex-col h-full relative group">
+              <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                  <iconify-icon icon="lucide:brain" class="text-xl"></iconify-icon>
+                </div>
+                <span
+                  class="px-2.5 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full border border-amber-200">Moderate
+                  Risk</span>
+              </div>
+              <h3
+                class="text-xl font-heading font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                Migraine</h3>
+              <p class="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
+                A headache of varying intensity, often accompanied by nausea and sensitivity to light and sound.
+              </p>
+              <div class="flex flex-wrap gap-1.5 mb-6">
+                <span class="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md">Throbbing pain</span>
+                <span class="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md">Aura</span>
+              </div>
+              <button
+                class="w-full py-2.5 border border-border rounded-xl text-sm font-medium text-foreground hover:bg-secondary hover:text-primary transition-colors mt-auto">
+                View Details
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+
+</html>

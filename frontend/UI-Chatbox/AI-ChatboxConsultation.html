@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@100..900&family=Fira+Code:wght@300..700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+      @theme inline {
+        --color-background: var(--background);
+        --color-foreground: var(--foreground);
+        --color-primary: var(--primary);
+        --color-primary-foreground: var(--primary-foreground);
+        --color-secondary: var(--secondary);
+        --color-secondary-foreground: var(--secondary-foreground);
+        --color-tertiary: var(--tertiary);
+        --color-muted: var(--muted);
+        --color-muted-foreground: var(--muted-foreground);
+        --color-accent: var(--accent);
+        --color-destructive: var(--destructive);
+        --color-card: var(--card);
+        --color-card-foreground: var(--card-foreground);
+        --color-border: var(--border);
+        --color-input: var(--input);
+        --color-ring: var(--ring);
+        --radius-sm: calc(var(--radius) - 4px);
+        --radius-md: calc(var(--radius) - 2px);
+        --radius-lg: var(--radius);
+        --font-family-sans: var(--font-sans);
+        --font-family-heading: var(--font-heading);
+      }
+      :root { --muted-foreground: #64748B;
+        --card-foreground: #0F172A;
+        --destructive: #EF4444;
+        --border: #E2E8F0;
+        --foreground: #0F172A;
+        --font-sans: "Inter", sans-serif;
+        --secondary-foreground: #0F172A;
+        --card: #FFFFFF;
+        --ring: #2563EB;
+        --input: #E2E8F0;
+        --muted: #F1F5F9;
+        --secondary: #F1F5F9;
+        --radius: 0.75rem;
+        --background: #F8FAFC;
+        --primary: #2563EB;
+        --primary-foreground: #FFFFFF;
+        --font-heading: "Inter", sans-serif; }
+    </style>
+  </head>
+  <body>
+<div class="min-h-screen w-full bg-background flex flex-row relative font-sans text-foreground">
+  
+  <!-- Sidebar Chat History -->
+  <aside class="w-72 bg-card border-r border-border flex flex-col hidden md:flex h-screen sticky top-0">
+    <div class="h-16 flex items-center justify-between px-4 border-b border-border">
+      <div class="flex items-center gap-2 text-primary font-heading font-bold text-lg">
+        <iconify-icon icon="lucide:bot"></iconify-icon>
+        <span>MediAI Consult</span>
+      </div>
+      <button class="text-muted-foreground hover:text-foreground">
+        <iconify-icon icon="lucide:layout-sidebar"></iconify-icon>
+      </button>
+    </div>
+    
+    <div class="p-4">
+      <button class="w-full bg-primary text-primary-foreground px-4 py-2.5 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 shadow-sm">
+        <iconify-icon icon="lucide:plus"></iconify-icon>
+        New Chat
+      </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto px-3 py-2 space-y-6">
+      <!-- Today -->
+      <div>
+        <p class="text-xs font-semibold text-muted-foreground px-2 mb-2">Today</p>
+        <div class="space-y-1">
+          <button class="w-full text-left px-3 py-2.5 bg-secondary text-foreground rounded-xl text-sm font-medium truncate flex items-center gap-2">
+            <iconify-icon icon="lucide:message-square" class="text-muted-foreground"></iconify-icon>
+            <span class="truncate">Side effects of Amoxicillin</span>
+          </button>
+          <button class="w-full text-left px-3 py-2.5 text-muted-foreground hover:bg-secondary/50 rounded-xl text-sm font-medium truncate flex items-center gap-2 transition-colors">
+            <iconify-icon icon="lucide:message-square" class="text-muted-foreground"></iconify-icon>
+            <span class="truncate">Headache and nausea causes</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Previous 7 Days -->
+      <div>
+        <p class="text-xs font-semibold text-muted-foreground px-2 mb-2">Previous 7 Days</p>
+        <div class="space-y-1">
+          <button class="w-full text-left px-3 py-2.5 text-muted-foreground hover:bg-secondary/50 rounded-xl text-sm font-medium truncate flex items-center gap-2 transition-colors">
+            <iconify-icon icon="lucide:message-square" class="text-muted-foreground"></iconify-icon>
+            <span class="truncate">Diet for high blood pressure</span>
+          </button>
+          <button class="w-full text-left px-3 py-2.5 text-muted-foreground hover:bg-secondary/50 rounded-xl text-sm font-medium truncate flex items-center gap-2 transition-colors">
+            <iconify-icon icon="lucide:message-square" class="text-muted-foreground"></iconify-icon>
+            <span class="truncate">Vitamin D deficiency symptoms</span>
+          </button>
+          <button class="w-full text-left px-3 py-2.5 text-muted-foreground hover:bg-secondary/50 rounded-xl text-sm font-medium truncate flex items-center gap-2 transition-colors">
+            <iconify-icon icon="lucide:message-square" class="text-muted-foreground"></iconify-icon>
+            <span class="truncate">Interaction: Ibuprofen & Aspirin</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="p-4 border-t border-border mt-auto">
+      <div class="flex items-center gap-3">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Profile" class="w-8 h-8 rounded-full object-cover border border-border" />
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium text-foreground truncate">Alex Morgan</p>
+        </div>
+        <button class="text-muted-foreground hover:text-foreground"><iconify-icon icon="lucide:settings"></iconify-icon></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Chat Area -->
+  <main class="flex-1 flex flex-col h-screen relative min-w-0 bg-background">
+    <!-- Mobile Header -->
+    <header class="h-14 border-b border-border flex items-center justify-between px-4 md:hidden bg-card/80 backdrop-blur-md sticky top-0 z-10">
+      <button class="text-muted-foreground hover:text-foreground">
+        <iconify-icon icon="lucide:menu" class="text-2xl"></iconify-icon>
+      </button>
+      <span class="font-heading font-semibold text-foreground">MediAI Consult</span>
+      <button class="text-primary"><iconify-icon icon="lucide:plus" class="text-2xl"></iconify-icon></button>
+    </header>
+
+    <!-- Chat Messages -->
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col gap-6 scroll-smooth pb-32">
+      <!-- AI Welcome Message -->
+      <div class="flex gap-4 max-w-3xl mx-auto w-full">
+        <div class="w-8 h-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center text-primary-foreground">
+          <iconify-icon icon="lucide:bot" class="text-lg"></iconify-icon>
+        </div>
+        <div class="flex-1 space-y-2">
+          <p class="text-sm font-medium text-foreground">MediAI Assistant</p>
+          <div class="text-base text-foreground leading-relaxed">
+            Hello, Alex. I'm your AI Medical Assistant. How can I help you today? You can ask me about symptoms, medications, or check drug interactions.
+          </div>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <button class="px-3 py-1.5 bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80 rounded-full text-xs font-medium border border-border transition-colors">
+              Check an interaction
+            </button>
+            <button class="px-3 py-1.5 bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80 rounded-full text-xs font-medium border border-border transition-colors">
+              Common side effects of Lisinopril
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Message -->
+      <div class="flex gap-4 max-w-3xl mx-auto w-full flex-row-reverse">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-8 h-8 rounded-full object-cover border border-border flex-shrink-0" />
+        <div class="flex-1 flex flex-col items-end">
+          <p class="text-sm font-medium text-foreground mb-1">You</p>
+          <div class="bg-primary text-primary-foreground px-5 py-3 rounded-2xl rounded-tr-sm text-base leading-relaxed max-w-[85%]">
+            What are the common side effects of Amoxicillin, and should I take it with food?
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Response -->
+      <div class="flex gap-4 max-w-3xl mx-auto w-full">
+        <div class="w-8 h-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center text-primary-foreground">
+          <iconify-icon icon="lucide:bot" class="text-lg"></iconify-icon>
+        </div>
+        <div class="flex-1 space-y-4">
+          <p class="text-sm font-medium text-foreground">MediAI Assistant</p>
+          <div class="text-base text-foreground leading-relaxed space-y-4">
+            <p>Amoxicillin is a common penicillin antibiotic. Here is the information regarding your questions:</p>
+            
+            <p class="font-semibold text-foreground">Common Side Effects:</p>
+            <ul class="list-disc pl-5 space-y-1 text-muted-foreground">
+              <li>Nausea or vomiting</li>
+              <li>Diarrhea</li>
+              <li>Mild skin rash</li>
+              <li>Upset stomach</li>
+            </ul>
+
+            <p class="font-semibold text-foreground mt-4">Taking with Food:</p>
+            <p>Yes, it is generally recommended to take Amoxicillin with food or a meal. Taking it with food can help prevent stomach upset and nausea, which are common side effects.</p>
+            
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mt-4 flex gap-3">
+              <iconify-icon icon="lucide:info" class="text-amber-600 text-xl flex-shrink-0 mt-0.5"></iconify-icon>
+              <p class="text-sm text-amber-800">
+                <strong>Important:</strong> If you develop a severe skin rash, itching, difficulty breathing, or swelling of the face/throat, seek emergency medical attention immediately as these are signs of an allergic reaction.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Sources -->
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-border">
+            <span class="text-xs font-medium text-muted-foreground">Sources:</span>
+            <span class="px-2 py-1 bg-secondary rounded text-[10px] font-medium text-muted-foreground flex items-center gap-1">
+              <iconify-icon icon="lucide:link"></iconify-icon> FDA Label
+            </span>
+            <span class="px-2 py-1 bg-secondary rounded text-[10px] font-medium text-muted-foreground flex items-center gap-1">
+              <iconify-icon icon="lucide:link"></iconify-icon> Mayo Clinic
+            </span>
+          </div>
+          
+          <div class="flex items-center gap-2 mt-2">
+            <button class="text-muted-foreground hover:text-foreground p-1 rounded hover:bg-secondary transition-colors"><iconify-icon icon="lucide:copy"></iconify-icon></button>
+            <button class="text-muted-foreground hover:text-foreground p-1 rounded hover:bg-secondary transition-colors"><iconify-icon icon="lucide:thumbs-up"></iconify-icon></button>
+            <button class="text-muted-foreground hover:text-foreground p-1 rounded hover:bg-secondary transition-colors"><iconify-icon icon="lucide:thumbs-down"></iconify-icon></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-transparent pt-6 pb-6 px-4 md:px-8">
+      <div class="max-w-3xl mx-auto w-full relative">
+        <div class="bg-card border border-border rounded-3xl p-2 shadow-lg flex items-end gap-2 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+          <button class="p-2.5 text-muted-foreground hover:text-foreground rounded-full hover:bg-secondary transition-colors flex-shrink-0">
+            <iconify-icon icon="lucide:paperclip" class="text-xl"></iconify-icon>
+          </button>
+          
+          <textarea 
+            rows="1" 
+            placeholder="Ask about symptoms, medicines, or interactions..." 
+            class="w-full max-h-32 bg-transparent border-none focus:ring-0 resize-none py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none"
+            style="min-height: 44px;"></textarea>
+            
+          <button class="p-2.5 text-muted-foreground hover:text-foreground rounded-full hover:bg-secondary transition-colors flex-shrink-0 hidden sm:block">
+            <iconify-icon icon="lucide:mic" class="text-xl"></iconify-icon>
+          </button>
+          <button class="p-2.5 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors flex-shrink-0 shadow-sm">
+            <iconify-icon icon="lucide:send" class="text-xl"></iconify-icon>
+          </button>
+        </div>
+        <div class="text-center mt-3">
+          <p class="text-[10px] text-muted-foreground">MediAI can make mistakes. Always verify critical medical information with a healthcare professional.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body></html>

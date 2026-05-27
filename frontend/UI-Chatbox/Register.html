@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@100..900&family=Fira+Code:wght@300..700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+      @theme inline {
+        --color-background: var(--background);
+        --color-foreground: var(--foreground);
+        --color-primary: var(--primary);
+        --color-primary-foreground: var(--primary-foreground);
+        --color-secondary: var(--secondary);
+        --color-secondary-foreground: var(--secondary-foreground);
+        --color-tertiary: var(--tertiary);
+        --color-muted: var(--muted);
+        --color-muted-foreground: var(--muted-foreground);
+        --color-accent: var(--accent);
+        --color-destructive: var(--destructive);
+        --color-card: var(--card);
+        --color-card-foreground: var(--card-foreground);
+        --color-border: var(--border);
+        --color-input: var(--input);
+        --color-ring: var(--ring);
+        --radius-sm: calc(var(--radius) - 4px);
+        --radius-md: calc(var(--radius) - 2px);
+        --radius-lg: var(--radius);
+        --font-family-sans: var(--font-sans);
+        --font-family-heading: var(--font-heading);
+      }
+      :root { --card-foreground: #0F172A;
+        --tertiary: #38bdf8;
+        --background: #F8FAFC;
+        --ring: #2563EB;
+        --border: #E2E8F0;
+        --radius: 0.75rem;
+        --font-heading: Inter, sans-serif;
+        --secondary-foreground: #0F172A;
+        --accent: #F1F5F9;
+        --destructive: #EF4444;
+        --muted: #F1F5F9;
+        --secondary: #F1F5F9;
+        --primary: #2563EB;
+        --card: #FFFFFF;
+        --primary-foreground: #FFFFFF;
+        --input: #E2E8F0;
+        --font-sans: Inter, sans-serif;
+        --foreground: #0F172A;
+        --muted-foreground: #64748b; }
+    </style>
+  </head>
+  <body>
+<div class="min-h-screen w-full bg-background flex flex-col relative items-center justify-center p-6">
+  <div class="w-full max-w-md bg-card rounded-2xl shadow-sm p-8 border border-border">
+    <div class="flex items-center justify-center mb-8">
+      <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary mr-3">
+        <iconify-icon icon="lucide:activity" class="text-2xl"></iconify-icon>
+      </div>
+      <h1 class="text-2xl font-heading font-bold text-foreground tracking-tight">MediChat AI</h1>
+    </div>
+    
+    <div class="text-center mb-8">
+      <h2 class="text-xl font-heading font-semibold text-foreground">Create an account</h2>
+      <p class="text-muted-foreground mt-2 text-sm">Join our platform to manage your health data securely.</p>
+    </div>
+
+    <form class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-foreground mb-1.5 ml-4">Full Name</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground">
+             <iconify-icon icon="lucide:user"></iconify-icon>
+          </div>
+          <input type="text" class="w-full pl-11 pr-4 py-3 bg-background border border-input rounded-full text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow" placeholder="John Doe">
+        </div>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-foreground mb-1.5 ml-4">Email Address</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground">
+             <iconify-icon icon="lucide:mail"></iconify-icon>
+          </div>
+          <input type="email" class="w-full pl-11 pr-4 py-3 bg-background border border-input rounded-full text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow" placeholder="name@example.com">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-foreground mb-1.5 ml-4">Password</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground">
+             <iconify-icon icon="lucide:lock"></iconify-icon>
+          </div>
+          <input type="password" class="w-full pl-11 pr-4 py-3 bg-background border border-input rounded-full text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow" placeholder="••••••••">
+        </div>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-foreground mb-1.5 ml-4">Confirm Password</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground">
+             <iconify-icon icon="lucide:lock-keyhole"></iconify-icon>
+          </div>
+          <input type="password" class="w-full pl-11 pr-4 py-3 bg-background border border-input rounded-full text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow" placeholder="••••••••">
+        </div>
+      </div>
+
+      <div class="flex items-start pt-2 ml-2">
+        <div class="flex items-center h-5">
+          <input id="terms" type="checkbox" class="w-4 h-4 border border-input rounded bg-background focus:ring-3 focus:ring-primary/30 text-primary">
+        </div>
+        <label for="terms" class="ml-3 text-sm text-muted-foreground">
+          I agree to the <a href="#" class="text-primary hover:underline font-medium">Terms of Service</a> and <a href="#" class="text-primary hover:underline font-medium">Privacy Policy</a>.
+        </label>
+      </div>
+
+      <div class="pt-4">
+        <button type="button" class="w-full py-3 px-4 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-full shadow-sm transition-colors flex items-center justify-center">
+          Create Account
+          <iconify-icon icon="lucide:arrow-right" class="ml-2"></iconify-icon>
+        </button>
+      </div>
+    </form>
+    
+    <div class="mt-8 text-center text-sm text-muted-foreground">
+      Already have an account? <a href="#" class="text-primary hover:underline font-medium">Log in here</a>
+    </div>
+  </div>
+</div>
+</body></html>
