@@ -46,11 +46,6 @@ jobs:
     if: ${{ needs.changes.outputs.changed == 'true' }}
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        shardIndex: [1, 2, 3, 4]
-        shardTotal: [4]
-      fail-fast: false
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
@@ -66,13 +61,8 @@ jobs:
       if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled == 'true' }}
       with:
         limit-access-to-actor: true
-    - name: Install uv
-      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
-      with:
-        # Before upgrading uv version, make sure astral-sh/setup-uv knows its checksum.
-        # See: https://github.com/astral-sh/setup-uv/issues/851#issuecomment-4282017837
-        version: "0.11.4"
-    - run: uv sync
+    - name: Install dependencies
+      run: pip install -r requirements.txt
       working-directory: backend
     - run: bun ci
       working-directory: frontend
@@ -80,13 +70,13 @@ jobs:
     - run: docker compose build
     - run: docker compose down -v --remove-orphans
     - name: Run Playwright tests
-      run: docker compose run --rm playwright bunx playwright test --fail-on-flaky-tests --trace=retain-on-failure --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      run: docker compose run --rm playwright bunx playwright test --fail-on-flaky-tests --trace=retain-on-failure
     - run: docker compose down -v --remove-orphans
     - name: Upload blob report to GitHub Actions Artifacts
       if: ${{ !cancelled() }}
       uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       with:
-        name: blob-report-${{ matrix.shardIndex }}
+        name: blob-report
         path: frontend/blob-report
         include-hidden-files: true
         retention-days: 1
@@ -112,7 +102,7 @@ jobs:
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         path: frontend/all-blob-reports
-        pattern: blob-report-*
+        pattern: blob-report*
         merge-multiple: true
     - name: Merge into HTML Report
       run: bunx playwright merge-reports --reporter html ./all-blob-reports

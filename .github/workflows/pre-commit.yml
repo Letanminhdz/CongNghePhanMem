@@ -49,23 +49,13 @@ jobs:
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: "3.11"
-      - name: Setup uv
-        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
-        with:
-          # Before upgrading uv version, make sure astral-sh/setup-uv knows its checksum.
-          # See: https://github.com/astral-sh/setup-uv/issues/851#issuecomment-4282017837
-          version: "0.11.4"
-          cache-dependency-glob: |
-            requirements**.txt
-            pyproject.toml
-            uv.lock
-      - name: Install backend dependencies
-        run: uv sync --all-packages
+      - name: Install dependencies
+        run: pip install -r requirements.txt pre-commit prek ty zizmor
       - name: Install frontend dependencies
         run: bun ci
       - name: Run prek - pre-commit
         id: precommit
-        run: uv run prek run --from-ref origin/${GITHUB_BASE_REF} --to-ref HEAD --show-diff-on-failure
+        run: prek run --from-ref origin/${GITHUB_BASE_REF} --to-ref HEAD --show-diff-on-failure
         continue-on-error: true
       - name: Commit and push changes
         if: env.HAS_SECRETS == 'true'
