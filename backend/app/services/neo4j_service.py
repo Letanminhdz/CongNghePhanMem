@@ -185,75 +185,141 @@ class Neo4jService:
     # ============================================
 
     def check_drug_interactions(self, drug_names: list[str]) -> list[dict[str, Any]]:
-        interactions: list[dict[str, Any]] = []
+        """
+        Check interactions between multiple drugs using a single efficient Cypher query.
+        """
+        if not drug_names or len(drug_names) < 2:
+            return []
+            
         try:
-            for i in range(len(drug_names)):
-                for j in range(i + 1, len(drug_names)):
-                    query = """
-                    MATCH (d1:Drug {name: $drug1})-[r:INTERACTS_WITH]-(d2:Drug {name: $drug2})
-                    RETURN {
-                        drug_1: d1.name,
-                        drug_2: d2.name,
-                        has_interaction: true,
-                        severity: r.severity,
-                        description: r.description
-                    } AS interaction
-                    """
-                    results = self._repository.execute_read(
-                        query, drug1=drug_names[i], drug2=drug_names[j]
-                    )
-                    if results and results[0].get("interaction"):
-                        interactions.append(results[0]["interaction"])
+            query = """
+            MATCH (d1:Drug)-[r:INTERACTS_WITH]-(d2:Drug)
+            WHERE d1.name IN $names AND d2.name IN $names
+              AND id(d1) < id(d2)
+            RETURN {
+                drug_1: d1.name,
+                drug_2: d2.name,
+                has_interaction: true,
+                severity: r.severity,
+                description: r.description
+            } AS interaction
+            """
+            results = self._repository.execute_read(query, names=drug_names)
+            return [record["interaction"] for record in results]
         except Exception as e:
             logger.error(f"Error checking interactions: {e}")
-        return interactions
+            return []
 
     # ============================================
     # RELATIONSHIP OPERATIONS
     # ============================================
 
-    def create_contains_relationship(
+    # ============================================
+    # RELATIONSHIP OPERATIONS
+    # ============================================
+
+    def merge_contains_relationship(
         self, drug_name: str, ingredient_name: str
     ) -> bool:
         try:
             query = """
-            MATCH (d:Drug {name: $drug_name})
-            MATCH (i:Ingredient {name: $ingredient_name})
+            MERGE (d:Drug {name: $drug_name})
+            MERGE (i:Ingredient {name: $ingredient_name})
             MERGE (d)-[:CONTAINS]->(i)
             """
             self._repository.execute_write(
                 query,
-                drug_name=drug_name,
-                ingredient_name=ingredient_name,
-            )
-            logger.debug(
-                f"Created CONTAINS relationship: {drug_name} -> {ingredient_name}"
+                drug_name=drug_name.strip(),
+                ingredient_name=ingredient_name.strip(),
             )
             return True
         except Exception as e:
-            logger.error(f"Error creating CONTAINS relationship: {e}")
+            logger.error(f"Error merging CONTAINS relationship: {e}")
             return False
 
-    def create_made_by_relationship(
+    def merge_made_by_relationship(
         self, drug_name: str, manufacturer_name: str
     ) -> bool:
         try:
             query = """
-            MATCH (d:Drug {name: $drug_name})
-            MATCH (m:Manufacturer {name: $manufacturer_name})
+            MERGE (d:Drug {name: $drug_name})
+            MERGE (m:Manufacturer {name: $manufacturer_name})
             MERGE (d)-[:MADE_BY]->(m)
             """
             self._repository.execute_write(
                 query,
-                drug_name=drug_name,
-                manufacturer_name=manufacturer_name,
-            )
-            logger.debug(
-                f"Created MADE_BY relationship: {drug_name} -> {manufacturer_name}"
+                drug_name=drug_name.strip(),
+                manufacturer_name=manufacturer_name.strip(),
             )
             return True
         except Exception as e:
-            logger.error(f"Error creating MADE_BY relationship: {e}")
+            logger.error(f"Error merging MADE_BY relationship: {e}")
+            return False
+
+    def merge_treats_relationship(
+        self, drug_name: str, disease_name: str, source: str = "openFDA_heuristic"
+    ) -> bool:
+        try:
+            query = """
+            MERGE (d:Drug {name: $drug_name})
+            MERGE (dis:Disease {name: $disease_name})
+            MERGE (d)-[r:TREATS]->(dis)
+            SET r.source = $source,
+                r.updated_at = datetime()
+            """
+            self._repository.execute_write(
+                query,
+                drug_name=drug_name.strip(),
+                disease_name=disease_name.strip(),
+                source=source
+            )
+            return True
+        except Exception as e:
+            logger.error(f"Error merging TREATS relationship: {e}")
+            return False
+
+    def merge_has_symptom_relationship(
+        self, disease_name: str, symptom_name: str, source: str = "openFDA_heuristic"
+    ) -> bool:
+        try:
+            query = """
+            MERGE (d:Disease {name: $disease_name})
+            MERGE (s:Symptom {name: $symptom_name})
+            MERGE (d)-[r:HAS_SYMPTOM]->(s)
+            SET r.source = $source,
+                r.updated_at = datetime()
+            """
+            self._repository.execute_write(
+                query,
+                disease_name=disease_name.strip(),
+                symptom_name=symptom_name.strip(),
+                source=source
+            )
+            return True
+        except Exception as e:
+            logger.error(f"Error merging HAS_SYMPTOM relationship: {e}")
+            return False
+
+    def merge_side_effect_relationship(
+        self, drug_name: str, side_effect_name: str, source: str = "openFDA_heuristic"
+    ) -> bool:
+        try:
+            query = """
+            MERGE (d:Drug {name: $drug_name})
+            MERGE (s:SideEffect {name: $side_effect_name})
+            MERGE (d)-[r:HAS_SIDE_EFFECT]->(s)
+            SET r.source = $source,
+                r.updated_at = datetime()
+            """
+            self._repository.execute_write(
+                query,
+                drug_name=drug_name.strip(),
+                side_effect_name=side_effect_name.strip(),
+                source=source
+            )
+            return True
+        except Exception as e:
+            logger.error(f"Error merging HAS_SIDE_EFFECT relationship: {e}")
             return False
 
     def create_interacts_relationship(
@@ -265,27 +331,111 @@ class Neo4jService:
     ) -> bool:
         try:
             query = """
-            MATCH (d1:Drug {name: $drug_name_1})
-            MATCH (d2:Drug {name: $drug_name_2})
-            MERGE (d1)-[r:INTERACTS_WITH]->(d2)
+            MERGE (d1:Drug {name: $drug_name_1})
+            MERGE (d2:Drug {name: $drug_name_2})
+            MERGE (d1)-[r:INTERACTS_WITH]-(d2)
             SET r.severity = $severity,
-                r.description = $description
+                r.description = $description,
+                r.updated_at = datetime()
             """
             self._repository.execute_write(
                 query,
-                drug_name_1=drug_name_1,
-                drug_name_2=drug_name_2,
+                drug_name_1=drug_name_1.strip(),
+                drug_name_2=drug_name_2.strip(),
                 severity=severity,
                 description=description,
-            )
-            logger.debug(
-                f"Created INTERACTS_WITH relationship: {drug_name_1} <-> {drug_name_2}"
             )
             return True
         except Exception as e:
             logger.error(f"Error creating INTERACTS_WITH relationship: {e}")
             return False
 
+    # ============================================
+    # MAINTENANCE & STATS
+    # ============================================
+
+    def rebuild_graph(self) -> bool:
+        """Create constraints and indexes in Neo4j."""
+        try:
+            queries = [
+                "CREATE CONSTRAINT drug_name IF NOT EXISTS FOR (d:Drug) REQUIRE d.name IS UNIQUE",
+                "CREATE CONSTRAINT disease_name IF NOT EXISTS FOR (d:Disease) REQUIRE d.name IS UNIQUE",
+                "CREATE CONSTRAINT ingredient_name IF NOT EXISTS FOR (i:Ingredient) REQUIRE i.name IS UNIQUE",
+                "CREATE CONSTRAINT manufacturer_name IF NOT EXISTS FOR (m:Manufacturer) REQUIRE m.name IS UNIQUE",
+                "CREATE CONSTRAINT symptom_name IF NOT EXISTS FOR (s:Symptom) REQUIRE s.name IS UNIQUE",
+                "CREATE CONSTRAINT side_effect_name IF NOT EXISTS FOR (s:SideEffect) REQUIRE s.name IS UNIQUE",
+                "CREATE INDEX drug_generic_name IF NOT EXISTS FOR (d:Drug) ON (d.generic_name)",
+            ]
+            for q in queries:
+                self._repository.execute_write(q)
+            logger.info("Neo4j constraints and indexes rebuilt successfully.")
+            return True
+        except Exception as e:
+            logger.error(f"Error rebuilding graph: {e}")
+            return False
+
+    def cleanup_test_data(self) -> dict[str, int]:
+        """Remove test/dummy nodes and relationships."""
+        try:
+            query = """
+            MATCH (n)
+            WHERE n.name CONTAINS 'test' 
+               OR n.name CONTAINS 'demo' 
+               OR n.name CONTAINS 'hello'
+               OR labels(n)[0] IN ['Test', 'Demo']
+            DETACH DELETE n
+            RETURN count(*) AS deleted_count
+            """
+            results = self._repository.execute_write(query)
+            count = results[0]["deleted_count"] if results else 0
+            logger.info(f"Cleaned up {count} test nodes.")
+            return {"deleted_nodes": count}
+        except Exception as e:
+            logger.error(f"Error cleaning test data: {e}")
+            return {"error": str(e)}
+
+    def reset_graph(self, confirm: bool = False) -> dict[str, Any]:
+        """Delete ALL nodes and relationships if confirmed."""
+        if not confirm:
+            return {"error": "Confirmation required to reset graph"}
+        try:
+            query = "MATCH (n) DETACH DELETE n RETURN count(*) AS deleted_count"
+            results = self._repository.execute_write(query)
+            count = results[0]["deleted_count"] if results else 0
+            logger.warning(f"FULL GRAPH RESET: Deleted {count} nodes.")
+            return {"success": True, "deleted_nodes": count}
+        except Exception as e:
+            logger.error(f"Error resetting graph: {e}")
+            return {"error": str(e)}
+
+    def get_graph_stats(self) -> dict[str, Any]:
+        """Get counts of labels, relationships, and isolated nodes."""
+        try:
+            # Count labels
+            try:
+                label_results = self._repository.execute_read("MATCH (n) RETURN labels(n)[0] AS label, count(*) AS count")
+                labels = {r["label"] or "Unknown": r["count"] for r in label_results}
+            except Exception:
+                labels = {}
+
+            # Count relationships
+            rel_query = "MATCH ()-[r]->() RETURN type(r) AS type, count(*) AS count"
+            rel_results = self._repository.execute_read(rel_query)
+            relationships = {r["type"]: r["count"] for r in rel_results}
+
+            # Count isolated nodes
+            isolated_query = "MATCH (n) WHERE NOT (n)--() RETURN count(n) AS count"
+            isolated_results = self._repository.execute_read(isolated_query)
+            isolated_count = isolated_results[0]["count"] if isolated_results else 0
+
+            return {
+                "label_counts": labels,
+                "relationship_counts": relationships,
+                "isolated_nodes_count": isolated_count
+            }
+        except Exception as e:
+            logger.error(f"Error getting graph stats: {e}")
+            return {"error": str(e)}
 
     def get_graph_data(self, limit: int = 100) -> dict[str, list[dict[str, Any]]]:
         """Fetch nodes and relationships for visualization."""
@@ -306,7 +456,7 @@ class Neo4jService:
                 # Process source node
                 n = record.get("n")
                 if n:
-                    node_id = str(n.element_id) if hasattr(n, 'element_id') else str(id(n))
+                    node_id = str(n.element_id) if hasattr(n, "element_id") else str(id(n))
                     if node_id not in nodes_set:
                         nodes_set[node_id] = {
                             "id": node_id,
@@ -318,7 +468,7 @@ class Neo4jService:
                 r = record.get("r")
                 m = record.get("m")
                 if r and m:
-                    target_id = str(m.element_id) if hasattr(m, 'element_id') else str(id(m))
+                    target_id = str(m.element_id) if hasattr(m, "element_id") else str(id(m))
                     if target_id not in nodes_set:
                         nodes_set[target_id] = {
                             "id": target_id,

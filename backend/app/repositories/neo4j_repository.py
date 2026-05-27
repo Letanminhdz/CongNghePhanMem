@@ -1,9 +1,7 @@
-"""
-Neo4j repository layer.
-"""
-
 import logging
 from typing import Any
+
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 from app.core.config import settings
 
@@ -28,9 +26,15 @@ class Neo4jRepository:
                 "Neo4j support is unavailable because the neo4j driver is not installed. "
                 "Install it with `pip install neo4j`."
             ) from exc
+            
+        # Optimize driver for local container/bolt usage
         self._driver = GraphDatabase.driver(
             settings.NEO4J_URI,
             auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD),
+            max_connection_lifetime=3600,
+            max_connection_pool_size=50,
+            connection_acquisition_timeout=30,
+            keep_alive=True
         )
 
     def close(self) -> None:
@@ -43,10 +47,7 @@ class Neo4jRepository:
         try:
             from neo4j.exceptions import Neo4jError  # type: ignore[import]
         except ImportError as exc:
-            raise ImportError(
-                "Neo4j support is unavailable because the neo4j driver is not installed. "
-                "Install it with `pip install neo4j`."
-            ) from exc
+            raise ImportError("Neo4j driver is not installed.") from exc
 
         try:
             self._ensure_driver()
@@ -61,10 +62,7 @@ class Neo4jRepository:
         try:
             from neo4j.exceptions import Neo4jError  # type: ignore[import]
         except ImportError as exc:
-            raise ImportError(
-                "Neo4j support is unavailable because the neo4j driver is not installed. "
-                "Install it with `pip install neo4j`."
-            ) from exc
+            raise ImportError("Neo4j driver is not installed.") from exc
 
         try:
             self._ensure_driver()
@@ -75,23 +73,25 @@ class Neo4jRepository:
             logger.error(f"Neo4j write error: {error}")
             raise
 
+    @retry(
+        stop=stop_after_attempt(5),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        reraise=False
+    )
     def verify_connectivity(self) -> bool:
-        try:
-            from neo4j.exceptions import Neo4jError  # type: ignore[import]
-        except ImportError as exc:
-            raise ImportError(
-                "Neo4j support is unavailable because the neo4j driver is not installed. "
-                "Install it with `pip install neo4j`."
-            ) from exc
-
+        """
+        Verify connection to Neo4j with retries.
+        Helpful during startup when Neo4j container might be booting.
+        """
         try:
             self._ensure_driver()
             with self._driver.session() as session:
                 result = session.run("RETURN 1 AS result")
                 record = result.single()
                 return record is not None and record["result"] == 1
-        except Neo4jError as error:
-            logger.error(f"Neo4j connectivity error: {error}")
+        except Exception as error:
+            # We log as warning because tenacity will retry
+            logger.warning(f"Neo4j connectivity attempt failed: {error}")
             return False
 
 

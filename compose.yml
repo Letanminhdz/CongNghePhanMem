@@ -1,7 +1,7 @@
 services:
 
   db:
-    image: postgres:18
+    image: postgres:16-alpine
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
@@ -41,7 +41,7 @@ services:
         condition: service_healthy
         restart: true
       neo4j:
-        condition: service_started
+        condition: service_healthy
     command:
       - sh
       - scripts/prestart.sh
@@ -76,7 +76,7 @@ services:
         condition: service_healthy
         restart: true
       neo4j:
-        condition: service_started
+        condition: service_healthy
       prestart:
         condition: service_completed_successfully
     env_file:
@@ -129,10 +129,15 @@ services:
       - "7474:7474"
       - "7687:7687"
     environment:
-      - NEO4J_AUTH=neo4j/password123
+      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD?Variable not set}
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 40s
     volumes:
       - neo4j-data:/data
-    # keep on default network so backend can reach it by hostname 'neo4j'
 
 volumes:
   app-db-data:
