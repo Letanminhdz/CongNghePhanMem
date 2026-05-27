@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@100..900&family=Fira+Code:wght@300..700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+      @theme inline {
+        --color-background: var(--background);
+        --color-foreground: var(--foreground);
+        --color-primary: var(--primary);
+        --color-primary-foreground: var(--primary-foreground);
+        --color-secondary: var(--secondary);
+        --color-secondary-foreground: var(--secondary-foreground);
+        --color-tertiary: var(--tertiary);
+        --color-muted: var(--muted);
+        --color-muted-foreground: var(--muted-foreground);
+        --color-accent: var(--accent);
+        --color-destructive: var(--destructive);
+        --color-card: var(--card);
+        --color-card-foreground: var(--card-foreground);
+        --color-border: var(--border);
+        --color-input: var(--input);
+        --color-ring: var(--ring);
+        --radius-sm: calc(var(--radius) - 4px);
+        --radius-md: calc(var(--radius) - 2px);
+        --radius-lg: var(--radius);
+        --font-family-sans: var(--font-sans);
+        --font-family-heading: var(--font-heading);
+      }
+      :root { --muted-foreground: #64748B;
+        --card-foreground: #0F172A;
+        --destructive: #EF4444;
+        --border: #E2E8F0;
+        --foreground: #0F172A;
+        --font-sans: "Inter", sans-serif;
+        --secondary-foreground: #0F172A;
+        --card: #FFFFFF;
+        --ring: #2563EB;
+        --input: #E2E8F0;
+        --muted: #F1F5F9;
+        --secondary: #F1F5F9;
+        --radius: 0.75rem;
+        --background: #F8FAFC;
+        --primary: #2563EB;
+        --primary-foreground: #FFFFFF;
+        --font-heading: "Inter", sans-serif; }
+    </style>
+  </head>
+  <body>
+<div class="min-h-screen w-full bg-background flex flex-col relative font-sans text-foreground">
+  <!-- Navigation -->
+  <header class="sticky top-0 z-50 w-full bg-card/80 backdrop-blur-md border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2 text-primary font-heading font-bold text-xl">
+        <iconify-icon icon="lucide:activity" class="text-2xl"></iconify-icon>
+        <span>MediAI</span>
+      </div>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
+        <a href="index.html" class="text-primary transition-colors">Home</a>
+        <a href="#" class="hover:text-foreground transition-colors">Features</a>
+        <a href="MedicineLookup.html" class="hover:text-foreground transition-colors">Medicines</a>
+        <a href="#" class="hover:text-foreground transition-colors">About Us</a>
+      </nav>
+      <div class="flex items-center gap-4">
+        <a href="Auth.html?tab=login" class="text-sm font-medium text-foreground hover:text-primary transition-colors">Log In</a>
+        <a href="Auth.html?tab=register" class="bg-primary text-primary-foreground px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors shadow-sm">
+          Sign Up Free
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-1 flex flex-col">
+    <section class="relative w-full py-20 lg:py-32 overflow-hidden">
+      <!-- Background Image with Overlay -->
+      <div class="absolute inset-0 z-0">
+        <img src="https://uxmagic.blob.core.windows.net/public/agent-images/hero-med-1779611524787-d5of8fj4cs6.png" alt="Medical AI Background" class="w-full h-full object-cover opacity-20 object-center" />
+        <div class="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background"></div>
+      </div>
+      
+      <div class="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
+          <iconify-icon icon="lucide:sparkles" class="text-base"></iconify-icon>
+          <span>Powered by Advanced Medical AI</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-foreground max-w-4xl leading-tight tracking-tight mb-6">
+          Your Intelligent Companion for <span class="text-primary">Medical Insights</span>
+        </h1>
+        <p class="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
+          Instantly check drug interactions, explore comprehensive medicine details, and consult our AI assistant for safe, reliable healthcare information.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md mx-auto">
+          <a href="AIChatbox.html" class="w-full sm:w-auto flex-1 bg-primary text-primary-foreground px-8 py-3.5 rounded-full font-medium text-base hover:bg-primary/90 transition-all shadow-md flex items-center justify-center gap-2">
+            <iconify-icon icon="lucide:message-circle"></iconify-icon>
+            Chat with AI
+          </a>
+          <a href="MedicineLookup.html" class="w-full sm:w-auto flex-1 bg-card text-foreground border border-border px-8 py-3.5 rounded-full font-medium text-base hover:bg-secondary transition-all shadow-sm flex items-center justify-center gap-2">
+            <iconify-icon icon="lucide:search"></iconify-icon>
+            Search Medicines
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Access Features -->
+    <section class="py-16 bg-background relative z-10">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-heading font-semibold text-foreground mb-4">Comprehensive Healthcare Tools</h2>
+          <p class="text-muted-foreground max-w-2xl mx-auto">Everything you need to make informed decisions about your medications and health conditions.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div class="bg-card rounded-2xl p-8 shadow-sm border border-border/50 hover:shadow-md transition-all flex flex-col items-start group">
+            <div class="w-14 h-14 rounded-full bg-blue-50 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <iconify-icon icon="lucide:bot" class="text-3xl"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">AI Consultation</h3>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
+              Have a natural conversation about symptoms, treatments, and general medical inquiries with our trained AI model.
+            </p>
+            <a href="AIChatbox.html" class="text-primary font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all">
+              Try AI Chat <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+            </a>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="bg-card rounded-2xl p-8 shadow-sm border border-border/50 hover:shadow-md transition-all flex flex-col items-start group">
+            <div class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <iconify-icon icon="lucide:pill" class="text-3xl"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Medicine Lookup</h3>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
+              Search a vast database of medications to find dosages, side effects, and detailed descriptions instantly.
+            </p>
+            <a href="MedicineLookup.html" class="text-emerald-600 font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all">
+              Search Database <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+            </a>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="bg-card rounded-2xl p-8 shadow-sm border border-border/50 hover:shadow-md transition-all flex flex-col items-start group">
+            <div class="w-14 h-14 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <iconify-icon icon="lucide:shield-alert" class="text-3xl"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Interaction Checker</h3>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
+              Input multiple medications to check for potential dangerous interactions and receive safety recommendations.
+            </p>
+            <a href="InteractionChecker.html" class="text-amber-600 font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all">
+              Check Interactions <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="py-16 bg-card border-y border-border">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <p class="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-8">Trusted by Healthcare Professionals</p>
+        <div class="flex flex-wrap justify-center items-center gap-12 opacity-60 grayscale">
+          <div class="flex items-center gap-2 font-heading font-bold text-xl"><iconify-icon icon="lucide:cross"></iconify-icon> MedTech</div>
+          <div class="flex items-center gap-2 font-heading font-bold text-xl"><iconify-icon icon="lucide:heart-pulse"></iconify-icon> HealthCare+</div>
+          <div class="flex items-center gap-2 font-heading font-bold text-xl"><iconify-icon icon="lucide:microscope"></iconify-icon> BioPharma</div>
+          <div class="flex items-center gap-2 font-heading font-bold text-xl"><iconify-icon icon="lucide:stethoscope"></iconify-icon> ClinicOS</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-background py-12 border-t border-border mt-auto">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="col-span-1 md:col-span-2">
+        <div class="flex items-center gap-2 text-primary font-heading font-bold text-xl mb-4">
+          <iconify-icon icon="lucide:activity"></iconify-icon>
+          <span>MediAI</span>
+        </div>
+        <p class="text-sm text-muted-foreground max-w-sm mb-6">
+          Empowering patients and professionals with AI-driven medical insights, drug interaction checks, and comprehensive disease data.
+        </p>
+        <p class="text-xs text-muted-foreground">
+          Disclaimer: MediAI is for informational purposes only and does not replace professional medical advice.
+        </p>
+      </div>
+      <div>
+        <h4 class="font-semibold text-foreground mb-4">Product</h4>
+        <ul class="space-y-3 text-sm text-muted-foreground">
+          <li><a href="AIChatbox.html" class="hover:text-primary transition-colors">AI Chatbot</a></li>
+          <li><a href="MedicineLookup.html" class="hover:text-primary transition-colors">Medicine Lookup</a></li>
+          <li><a href="InteractionChecker.html" class="hover:text-primary transition-colors">Interaction Checker</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold text-foreground mb-4">Company</h4>
+        <ul class="space-y-3 text-sm text-muted-foreground">
+          <li><a href="#" class="hover:text-primary transition-colors">About Us</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Careers</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
+</body></html>
