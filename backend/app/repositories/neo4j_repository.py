@@ -28,6 +28,8 @@ class Neo4jRepository:
             ) from exc
             
         # Optimize driver for local container/bolt usage
+        logger.info(f"Connecting to Neo4j at: {settings.NEO4J_URI}")
+        logger.info(f"Neo4j database configured: {settings.NEO4J_DATABASE}")
         self._driver = GraphDatabase.driver(
             settings.NEO4J_URI,
             auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD),
@@ -51,9 +53,13 @@ class Neo4jRepository:
 
         try:
             self._ensure_driver()
-            with self._driver.session() as session:
+            logger.info(f"Executing Neo4j READ query: {query}")
+            logger.debug(f"Parameters: {params}")
+            with self._driver.session(database=settings.NEO4J_DATABASE) as session:
                 result = session.run(query, **params)
-                return [record.data() for record in result]
+                records = [record.data() for record in result]
+                logger.info(f"Neo4j read result count: {len(records)}")
+                return records
         except Neo4jError as error:
             logger.error(f"Neo4j read error: {error}")
             raise
@@ -66,9 +72,13 @@ class Neo4jRepository:
 
         try:
             self._ensure_driver()
-            with self._driver.session() as session:
+            logger.info(f"Executing Neo4j WRITE query: {query}")
+            logger.debug(f"Parameters: {params}")
+            with self._driver.session(database=settings.NEO4J_DATABASE) as session:
                 result = session.run(query, **params)
-                return [record.data() for record in result]
+                records = [record.data() for record in result]
+                logger.info(f"Neo4j write result count: {len(records)}")
+                return records
         except Neo4jError as error:
             logger.error(f"Neo4j write error: {error}")
             raise
@@ -85,7 +95,8 @@ class Neo4jRepository:
         """
         try:
             self._ensure_driver()
-            with self._driver.session() as session:
+            logger.info(f"Verifying connectivity to Neo4j at {settings.NEO4J_URI}, database={settings.NEO4J_DATABASE}")
+            with self._driver.session(database=settings.NEO4J_DATABASE) as session:
                 result = session.run("RETURN 1 AS result")
                 record = result.single()
                 return record is not None and record["result"] == 1

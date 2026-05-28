@@ -13,6 +13,7 @@ from app.api.v1.endpoints import (
     favorites,
     chat,
     admin,
+    debug,
 )
 
 api_router = APIRouter()
@@ -29,3 +30,4 @@ api_router.include_router(interactions.router)
 api_router.include_router(favorites.router)
 api_router.include_router(chat.router)
 api_router.include_router(admin.router)
+api_router.include_router(debug.router)
