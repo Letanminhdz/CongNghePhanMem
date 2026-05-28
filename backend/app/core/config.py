@@ -1,4 +1,3 @@
-import secrets
 import warnings
 from typing import Annotated, Any, Literal
 
@@ -7,7 +6,6 @@ from pydantic import (
     BeforeValidator,
     EmailStr,
     HttpUrl,
-    PostgresDsn,
     computed_field,
     model_validator,
 )
@@ -25,7 +23,7 @@ def parse_cors(v: Any) -> list[str] | str:
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file="../.env",
+        env_file=".env",
         env_ignore_empty=True,
         extra="ignore",
     )
@@ -36,7 +34,7 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     FRONTEND_HOST: str = "http://localhost:5173"
 
-    SECRET_KEY: str = secrets.token_urlsafe(32)
+    SECRET_KEY: str = "changethis"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
 
     BACKEND_CORS_ORIGINS: Annotated[
@@ -92,11 +90,21 @@ class Settings(BaseSettings):
     NEO4J_URI: str = ""
     NEO4J_USERNAME: str = ""
     NEO4J_PASSWORD: str = ""
+    NEO4J_DATABASE: str = "neo4j"
 
     # OpenFDA
     OPENFDA_DRUG_LABEL_URL: str = "https://api.fda.gov/drug/label.json"
     OPENFDA_IMPORT_LIMIT: int = 20  # Number of drugs to import on startup
     OPENFDA_MIN_EXISTING_NODES: int = 100  # Skip auto-import if Neo4j already has N+ nodes
+
+    # LLM
+    LLM_PROVIDER: Literal["openai", "gemini", "groq", "none"] = "none"
+    OPENAI_API_KEY: str | None = None
+    GEMINI_API_KEY: str | None = None
+    GROQ_API_KEY: str | None = None
+    LLM_MODEL: str | None = None
+    LLM_TIMEOUT_SECONDS: int = 30
+    LLM_MAX_RETRIES: int = 3
 
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
         if value == "changethis":
