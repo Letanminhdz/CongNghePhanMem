@@ -124,15 +124,11 @@ def create_treats_relationship(interaction: DrugInteraction):
 
 
 @router.get("/stats")
-def get_neo4j_stats():
+def get_neo4j_stats(
+):
     """Get statistics about Neo4j data."""
-    drug_count = openfda_neo4j_service.verify_drug_count()
-    disease_count = openfda_neo4j_service.verify_disease_count()
-    logger.info(f"Neo4j stats: drugs={drug_count}, diseases={disease_count}")
-    return {
-        "total_drugs": drug_count,
-        "total_diseases": disease_count,
-    }
+    stats = neo4j_service.get_graph_stats()
+    return stats
 
 
 @router.get("/graph", response_model=GraphResponse)

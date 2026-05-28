@@ -8,7 +8,7 @@ from typing import Optional
 
 from app.core.config import settings
 from app.services.import_openfda_service import import_openfda_drugs
-from app.services.openfda_neo4j_service import openfda_neo4j_service
+from app.services.neo4j_service import neo4j_service
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +19,8 @@ def should_perform_startup_import() -> bool:
     Skip if Neo4j already has enough drug nodes to avoid redundant queries.
     """
     try:
-        existing_count = openfda_neo4j_service.verify_drug_count()
+        stats = neo4j_service.get_graph_stats()
+        existing_count = stats.get("label_counts", {}).get("Drug", 0)
         if existing_count >= settings.OPENFDA_MIN_EXISTING_NODES:
             logger.info(
                 f"Neo4j already populated with {existing_count} drugs "
@@ -39,7 +40,7 @@ def perform_startup_import() -> Optional[int]:
     """
     logger.info("=" * 60)
     logger.info("Starting automatic openFDA import...")
-    logger.info(f"Import limit: {settings.OPENFDA_IMPORT_LIMIT}")
+    logger.info("Import limit: %d", settings.OPENFDA_IMPORT_LIMIT)
 
     try:
         if not should_perform_startup_import():
@@ -51,10 +52,11 @@ def perform_startup_import() -> Optional[int]:
             skip=0,
         )
         
-        total_drugs = openfda_neo4j_service.verify_drug_count()
-        logger.info(f"✓ Automatic openFDA import completed")
-        logger.info(f"  - Imported/Updated: {imported_count}")
-        logger.info(f"  - Total Drug nodes: {total_drugs}")
+        stats = neo4j_service.get_graph_stats()
+        total_drugs = stats.get("label_counts", {}).get("Drug", 0)
+        logger.info("✓ Automatic openFDA import completed")
+        logger.info("  - Imported/Updated: %d", imported_count)
+        logger.info("  - Total Drug nodes: %d", total_drugs)
         logger.info("=" * 60)
         
         return imported_count
