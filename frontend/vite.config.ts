@@ -6,6 +6,7 @@ import { defineConfig } from "vite"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  root: "public",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

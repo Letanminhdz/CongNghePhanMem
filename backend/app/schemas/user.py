@@ -17,6 +17,7 @@ class UserCreate(UserBase):
 class UserUpdate(BaseModel):
     full_name: Optional[str] = None
     is_active: Optional[bool] = None
+    email: Optional[EmailStr] = None
 
 
 class UserRead(UserBase):

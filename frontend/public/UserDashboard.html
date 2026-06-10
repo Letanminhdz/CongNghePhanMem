@@ -72,27 +72,27 @@
 
       <div class="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-1">
         <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-2">Main Menu</p>
-        <a href="UserDashboard.html"
+        <a href="#"
           class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg font-medium transition-colors">
           <iconify-icon icon="lucide:layout-dashboard" class="text-lg"></iconify-icon>
           Dashboard
         </a>
-        <a href="AIChatbox.html"
+        <a href="#"
           class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
           <iconify-icon icon="lucide:message-circle" class="text-lg"></iconify-icon>
           AI Consult
         </a>
-        <a href="MedicineLookup.html"
+        <a href="#"
           class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
           <iconify-icon icon="lucide:pill" class="text-lg"></iconify-icon>
           Medicines
         </a>
-        <a href="DiseaseLookup.html"
+        <a href="#"
           class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
-          <iconify-icon icon="lucide:shield-alert" class="text-lg"></iconify-icon>
+          <iconify-icon icon="lucide:microscope" class="text-lg"></iconify-icon>
           Diseases
         </a>
-        <a href="InteractionChecker.html"
+        <a href="#"
           class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
           <iconify-icon icon="lucide:shield-alert" class="text-lg"></iconify-icon>
           Interactions
@@ -104,11 +104,6 @@
           <iconify-icon icon="lucide:bookmark" class="text-lg"></iconify-icon>
           Saved Items
         </a>
-        <a href="#"
-          class="flex items-center gap-3 px-3 py-2.5 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg font-medium transition-colors">
-          <iconify-icon icon="lucide:clock" class="text-lg"></iconify-icon>
-          History
-        </a>
       </div>
 
       <div class="p-4 border-t border-border">
@@ -117,7 +112,7 @@
           <iconify-icon icon="lucide:settings" class="text-lg"></iconify-icon>
           Settings
         </a>
-        <a href="index.html"
+        <a href="#"
           class="flex items-center gap-3 px-3 py-2.5 text-destructive hover:bg-destructive/10 rounded-lg font-medium transition-colors mt-1">
           <iconify-icon icon="lucide:log-out" class="text-lg"></iconify-icon>
           Log Out
@@ -146,11 +141,10 @@
             <span class="absolute top-0 right-0 w-2 h-2 bg-destructive rounded-full"></span>
           </button>
           <div class="flex items-center gap-3 pl-4 border-l border-border">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Profile"
-              class="w-8 h-8 rounded-full object-cover border border-border" />
+            <div id="headerAvatar" class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm border border-border">U</div>
             <div class="hidden sm:block">
-              <p class="text-sm font-medium leading-none">Alex Morgan</p>
-              <p class="text-xs text-muted-foreground mt-1">Free Plan</p>
+              <p id="headerName" class="text-sm font-medium leading-none">Loading...</p>
+              <p id="headerPlan" class="text-xs text-muted-foreground mt-1">User</p>
             </div>
           </div>
         </div>
@@ -160,14 +154,14 @@
       <div class="p-6 lg:p-8 max-w-6xl mx-auto w-full">
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
-            <h1 class="text-2xl font-heading font-bold text-foreground">Welcome back, Alex</h1>
+            <h1 id="welcomeTitle" class="text-2xl font-heading font-bold text-foreground">Welcome back!</h1>
             <p class="text-muted-foreground mt-1 text-sm">Here is your health and search overview for today.</p>
           </div>
-          <a href="AIChatbox.html"
+          <button
             class="bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 shadow-sm">
             <iconify-icon icon="lucide:message-circle"></iconify-icon>
             New Consultation
-          </a>
+          </button>
         </div>
 
         <!-- Stats Grid -->
@@ -216,11 +210,11 @@
             <div class="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
               <div class="px-6 py-4 border-b border-border flex items-center justify-between">
                 <h2 class="font-heading font-semibold text-lg">Recent Searches</h2>
-                <a href="MedicineLookup.html" class="text-sm text-primary hover:underline">View All</a>
+                <a href="#" class="text-sm text-primary hover:underline">View All</a>
               </div>
               <div class="divide-y divide-border">
                 <!-- Item 1 -->
-                <div class="px-6 py-4 flex items-center justify-between hover:bg-secondary/50 transition-colors cursor-pointer" onclick="window.location.href='MedicineDetails.html'">
+                <div class="px-6 py-4 flex items-center justify-between hover:bg-secondary/50 transition-colors">
                   <div class="flex items-center gap-4">
                     <div
                       class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground">
@@ -235,7 +229,7 @@
                       icon="lucide:chevron-right"></iconify-icon></button>
                 </div>
                 <!-- Item 2 -->
-                <div class="px-6 py-4 flex items-center justify-between hover:bg-secondary/50 transition-colors cursor-pointer" onclick="window.location.href='DiseaseDetails.html'">
+                <div class="px-6 py-4 flex items-center justify-between hover:bg-secondary/50 transition-colors">
                   <div class="flex items-center gap-4">
                     <div
                       class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground">
@@ -250,7 +244,7 @@
                       icon="lucide:chevron-right"></iconify-icon></button>
                 </div>
                 <!-- Item 3 -->
-                <div class="px-6 py-4 flex items-center justify-between hover:bg-secondary/50 transition-colors cursor-pointer" onclick="window.location.href='InteractionChecker.html'">
+                <div class="px-6 py-4 flex items-center justify-between hover:bg-secondary/50 transition-colors">
                   <div class="flex items-center gap-4">
                     <div
                       class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground">
@@ -273,14 +267,14 @@
             <div class="bg-card rounded-2xl border border-border shadow-sm p-6">
               <div class="flex items-center justify-between mb-6">
                 <h2 class="font-heading font-semibold text-lg">Saved Medicines</h2>
-                <button class="text-muted-foreground hover:text-primary" onclick="window.location.href='MedicineLookup.html'"><iconify-icon
+                <button class="text-muted-foreground hover:text-primary"><iconify-icon
                     icon="lucide:plus"></iconify-icon></button>
               </div>
 
               <div class="space-y-4">
                 <!-- Saved Card 1 -->
                 <div
-                  class="p-4 rounded-xl border border-border bg-background hover:border-primary/30 transition-colors cursor-pointer group" onclick="window.location.href='MedicineDetails.html'">
+                  class="p-4 rounded-xl border border-border bg-background hover:border-primary/30 transition-colors cursor-pointer group">
                   <div class="flex justify-between items-start mb-2">
                     <h3 class="font-medium text-sm text-foreground group-hover:text-primary transition-colors">
                       Lisinopril</h3>
@@ -297,7 +291,7 @@
 
                 <!-- Saved Card 2 -->
                 <div
-                  class="p-4 rounded-xl border border-border bg-background hover:border-primary/30 transition-colors cursor-pointer group" onclick="window.location.href='MedicineDetails.html'">
+                  class="p-4 rounded-xl border border-border bg-background hover:border-primary/30 transition-colors cursor-pointer group">
                   <div class="flex justify-between items-start mb-2">
                     <h3 class="font-medium text-sm text-foreground group-hover:text-primary transition-colors">
                       Atorvastatin</h3>
@@ -314,8 +308,7 @@
               </div>
 
               <button
-                onclick="window.location.href='MedicineLookup.html'"
-                class="w-full mt-4 py-2 text-sm text-primary font-medium hover:bg-primary/5 rounded-lg transition-colors cursor-pointer">
+                class="w-full mt-4 py-2 text-sm text-primary font-medium hover:bg-primary/5 rounded-lg transition-colors">
                 Manage Medicines
               </button>
             </div>
@@ -324,6 +317,58 @@
       </div>
     </main>
   </div>
+
+<script src="/api.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const user = await window.apiClient.request('/users/me');
+      const firstName = (user.full_name || user.email || 'User').split(' ')[0];
+
+      const headerName = document.getElementById('headerName');
+      const headerAvatar = document.getElementById('headerAvatar');
+      const welcomeTitle = document.getElementById('welcomeTitle');
+      const headerPlan = document.getElementById('headerPlan');
+
+      if (headerName) headerName.textContent = user.full_name || user.email;
+      if (welcomeTitle) welcomeTitle.textContent = `Welcome back, ${firstName}!`;
+      if (headerPlan) headerPlan.textContent = user.is_superuser ? 'Admin' : 'User';
+      if (headerAvatar) {
+        const initials = (user.full_name || user.email || 'U').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+        headerAvatar.textContent = initials;
+      }
+    } catch (err) {
+      console.warn('Not logged in:', err.message);
+    }
+
+    // Load saved medicines
+    try {
+      const favs = await window.apiClient.request('/favorites/');
+      const savedContainer = document.querySelector('.space-y-4');
+      if (savedContainer && favs && favs.length > 0) {
+        savedContainer.innerHTML = '';
+        favs.slice(0, 3).forEach(fav => {
+          const name = fav.drug_name || fav.name || 'Unknown';
+          const card = document.createElement('div');
+          card.className = 'p-4 rounded-xl border border-border bg-background hover:border-primary/30 transition-colors cursor-pointer group';
+          card.innerHTML = `
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-medium text-sm text-foreground group-hover:text-primary transition-colors">${name}</h3>
+              <iconify-icon icon="lucide:bookmark" class="text-primary text-sm"></iconify-icon>
+            </div>
+            <p class="text-xs text-muted-foreground">${fav.purpose || fav.generic_name || ''}</p>
+          `;
+          savedContainer.appendChild(card);
+        });
+        // Update saved medicines count stat
+        const statEls = document.querySelectorAll('.text-2xl.font-bold');
+        if (statEls[1]) statEls[1].textContent = favs.length;
+      }
+    } catch (err) {
+      console.warn('Could not load favorites:', err.message);
+    }
+  });
+</script>
 </body>
 
 </html>

@@ -35,8 +35,16 @@ class NERService:
         return previous_row[-1]
 
     def _normalize_text(self, text: str) -> str:
-        # Lowercase and remove punctuation
+        import unicodedata
+        # Lowercase
         text = text.lower()
+        # Remove accents
+        text = "".join(
+            c for c in unicodedata.normalize("NFD", text)
+            if unicodedata.category(c) != "Mn"
+        )
+        text = text.replace("đ", "d").replace("Đ", "D")
+        # Remove punctuation
         text = re.sub(r'[^\w\s]', '', text)
         return text.strip()
 
@@ -58,7 +66,7 @@ class NERService:
     def extract_entities(self, text: str) -> dict:
         """
         Extract drugs and diseases from text.
-        Supports Vietnamese and English via fuzzy matching.
+        Supports Vietnamese and English via fuzzy matching and accent stripping.
         """
         if not self.drug_names:
             self.refresh_entities()
@@ -69,14 +77,26 @@ class NERService:
         extracted_drugs = set()
         extracted_diseases = set()
 
-        # Simple window-based matching
-        # Check for 1, 2, or 3-word entities
+        # 1. Exact and Substring matching (handles multi-word entities of any length)
+        for drug in self.drug_names:
+            norm_drug = self._normalize_text(drug)
+            if norm_drug and norm_drug in normalized_query:
+                extracted_drugs.add(drug)
+
+        for disease in self.disease_names:
+            norm_disease = self._normalize_text(disease)
+            if norm_disease and norm_disease in normalized_query:
+                extracted_diseases.add(disease)
+
+        # 2. Sliding window-based fuzzy matching for typo tolerance
         for n in range(1, 4):
             for i in range(len(words) - n + 1):
                 phrase = " ".join(words[i:i+n])
                 
                 # Check Drugs
                 for drug in self.drug_names:
+                    if drug in extracted_drugs:
+                        continue
                     norm_drug = self._normalize_text(drug)
                     dist = self._levenshtein_distance(phrase, norm_drug)
                     # Allow 1 typo for short words, 2 for longer ones
@@ -86,6 +106,8 @@ class NERService:
 
                 # Check Diseases
                 for disease in self.disease_names:
+                    if disease in extracted_diseases:
+                        continue
                     norm_disease = self._normalize_text(disease)
                     dist = self._levenshtein_distance(phrase, norm_disease)
                     threshold = 1 if len(norm_disease) < 6 else 2

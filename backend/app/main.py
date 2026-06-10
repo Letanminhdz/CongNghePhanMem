@@ -51,6 +51,26 @@ async def global_exception_handler(request, exc):
 
 @app.on_event("startup")
 def on_startup() -> None:
+    import os
+    from logging.handlers import RotatingFileHandler
+    
+    # Set up file logger writing to backend/app.log
+    log_dir = os.path.dirname(os.path.abspath(__file__))
+    log_file = os.path.join(log_dir, "../app.log")
+    
+    file_handler = RotatingFileHandler(
+        log_file, maxBytes=1024 * 1024 * 5, backupCount=3, encoding="utf-8"
+    )
+    file_handler.setLevel(logging.INFO)
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
+    file_handler.setFormatter(formatter)
+    
+    root_logger = logging.getLogger()
+    if not any(isinstance(h, RotatingFileHandler) for h in root_logger.handlers):
+        root_logger.addHandler(file_handler)
+        
     logger = logging.getLogger("app.startup")
     logger.info("=" * 60)
     logger.info("Backend Application Starting")

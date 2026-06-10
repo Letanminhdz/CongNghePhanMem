@@ -32,6 +32,7 @@ class DiseaseLookupService:
                 DiseaseResponse(
                     name=disease.get("name", ""),
                     description=disease.get("description"),
+                    icd_code=disease.get("icd_code"),
                 )
                 for disease in results
             ]
@@ -59,6 +60,7 @@ class DiseaseLookupService:
             detail = DiseaseDetailResponse(
                 name=disease.get("name", ""),
                 description=disease.get("description"),
+                icd_code=disease.get("icd_code"),
             )
 
             logger.info(f"Successfully fetched details for disease '{disease_name}'")

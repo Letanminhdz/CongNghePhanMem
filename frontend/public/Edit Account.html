@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@100..900&family=Fira+Code:wght@300..700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+      @theme inline {
+        --color-background: var(--background);
+        --color-foreground: var(--foreground);
+        --color-primary: var(--primary);
+        --color-primary-foreground: var(--primary-foreground);
+        --color-secondary: var(--secondary);
+        --color-secondary-foreground: var(--secondary-foreground);
+        --color-tertiary: var(--tertiary);
+        --color-muted: var(--muted);
+        --color-muted-foreground: var(--muted-foreground);
+        --color-accent: var(--accent);
+        --color-destructive: var(--destructive);
+        --color-card: var(--card);
+        --color-card-foreground: var(--card-foreground);
+        --color-border: var(--border);
+        --color-input: var(--input);
+        --color-ring: var(--ring);
+        --radius-sm: calc(var(--radius) - 4px);
+        --radius-md: calc(var(--radius) - 2px);
+        --radius-lg: var(--radius);
+        --font-family-sans: var(--font-sans);
+        --font-family-heading: var(--font-heading);
+      }
+      :root { --foreground: #0f172a;
+        --secondary: #eff6ff;
+        --input: #e2e8f0;
+        --font-sans: Inter, sans-serif;
+        --accent: #e0f2fe;
+        --secondary-foreground: #1e3a8a;
+        --card-foreground: #0f172a;
+        --border: #e2e8f0;
+        --muted-foreground: #64748b;
+        --primary: #2563EB;
+        --background: #F8FAFC;
+        --tertiary: #38bdf8;
+        --destructive: #EF4444;
+        --radius: 1rem;
+        --ring: #2563eb;
+        --primary-foreground: #ffffff;
+        --card: #FFFFFF;
+        --font-heading: 'Inter', sans-serif;
+        --muted: #f1f5f9; }
+    </style>
+  </head>
+  <body>
+<div class="min-h-screen w-full bg-background flex flex-col items-center justify-center relative font-sans p-6">
+  
+  <!-- Centered Card -->
+  <div class="w-full max-w-[800px] bg-card rounded-2xl shadow-sm border border-border flex flex-col relative p-8">
+    
+    <!-- Top: Back & Title -->
+    <div class="flex items-center gap-4 mb-6">
+      <button class="p-2 hover:bg-muted rounded-full transition-colors text-muted-foreground hover:text-foreground -ml-2">
+        <iconify-icon icon="lucide:arrow-left" class="text-xl"></iconify-icon>
+      </button>
+      <h1 class="text-2xl font-bold text-foreground">Edit Account</h1>
+    </div>
+
+    <!-- Center Area: Form & Avatar -->
+    <div class="flex-1 flex flex-col max-w-md mx-auto w-full">
+      
+      <!-- Avatar Upload -->
+      <div class="flex justify-center mb-4">
+        <div class="relative">
+          <img src="https://randomuser.me/api/portraits/men/12.jpg" alt="Profile Avatar" class="w-24 h-24 rounded-full object-cover border-2 border-border shadow-sm">
+          <button class="absolute bottom-0 right-0 bg-card border border-border text-foreground p-2 rounded-full shadow-sm hover:bg-muted transition-colors flex items-center justify-center">
+            <iconify-icon icon="lucide:camera" class="text-sm"></iconify-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Form Fields -->
+      <div class="flex flex-col gap-6">
+        
+        <!-- User Name -->
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-medium text-foreground ml-1">Full Name</label>
+          <input id="fullNameInput" type="text" placeholder="Loading..." class="w-full px-4 py-3 rounded-xl border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+        </div>
+
+        <!-- Email (read-only) -->
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-medium text-foreground ml-1">Email</label>
+          <input id="emailInput" type="email" placeholder="Loading..." disabled class="w-full px-4 py-3 rounded-xl border border-input bg-muted text-muted-foreground cursor-not-allowed">
+        </div>
+
+      </div>
+
+      <div id="saveMsg" class="hidden text-sm text-center py-1"></div>
+    </div>
+    <!-- Bottom Right: Save Button -->
+    <div class="flex justify-end mt-4">
+      <button id="saveBtn" onclick="saveProfile()" class="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-full text-sm font-medium shadow-sm transition-colors">
+        Save Changes
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="/api.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const user = await window.apiClient.request('/users/me');
+      const fullNameInput = document.getElementById('fullNameInput');
+      const emailInput = document.getElementById('emailInput');
+      if (fullNameInput) fullNameInput.value = user.full_name || '';
+      if (emailInput) emailInput.value = user.email || '';
+    } catch (err) {
+      showMsg('Please log in to edit your profile.', 'error');
+    }
+  });
+
+  async function saveProfile() {
+    const fullName = document.getElementById('fullNameInput').value.trim();
+    if (!fullName) { showMsg('Name cannot be empty.', 'error'); return; }
+
+    const btn = document.getElementById('saveBtn');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    try {
+      await window.apiClient.request('/users/me', {
+        method: 'PUT',
+        body: JSON.stringify({ full_name: fullName })
+      });
+      showMsg('Profile updated successfully!', 'success');
+    } catch (err) {
+      showMsg(err.message || 'Save failed.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Save Changes';
+    }
+  }
+
+  function showMsg(msg, type) {
+    const el = document.getElementById('saveMsg');
+    if (!el) return;
+    el.textContent = msg;
+    el.className = `text-sm text-center py-1 ${ type === 'success' ? 'text-green-600' : 'text-destructive' }`;
+    setTimeout(() => { el.className = 'hidden'; }, 3000);
+  }
+</script>
+</body></html>

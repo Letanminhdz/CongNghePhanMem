@@ -26,6 +26,7 @@ class DiseaseResponse(BaseModel):
     id: Optional[str] = None
     name: str
     description: Optional[str] = None
+    icd_code: Optional[str] = None
 
 
 class DiseaseDetailResponse(DiseaseResponse):
