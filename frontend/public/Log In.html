@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@100..900&family=Fira+Code:wght@300..700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+      @theme inline {
+        --color-background: var(--background);
+        --color-foreground: var(--foreground);
+        --color-primary: var(--primary);
+        --color-primary-foreground: var(--primary-foreground);
+        --color-secondary: var(--secondary);
+        --color-secondary-foreground: var(--secondary-foreground);
+        --color-tertiary: var(--tertiary);
+        --color-muted: var(--muted);
+        --color-muted-foreground: var(--muted-foreground);
+        --color-accent: var(--accent);
+        --color-destructive: var(--destructive);
+        --color-card: var(--card);
+        --color-card-foreground: var(--card-foreground);
+        --color-border: var(--border);
+        --color-input: var(--input);
+        --color-ring: var(--ring);
+        --radius-sm: calc(var(--radius) - 4px);
+        --radius-md: calc(var(--radius) - 2px);
+        --radius-lg: var(--radius);
+        --font-family-sans: var(--font-sans);
+        --font-family-heading: var(--font-heading);
+      }
+      :root { --foreground: #0F172A;
+        --secondary: #eff6ff;
+        --input: #e2e8f0;
+        --font-sans: 'Inter', sans-serif;
+        --accent: #e0f2fe;
+        --secondary-foreground: #1e3a8a;
+        --card-foreground: #0f172a;
+        --border: #e2e8f0;
+        --muted-foreground: #374151;
+        --primary: #2563EB;
+        --background: #F8FAFC;
+        --tertiary: #38bdf8;
+        --destructive: #ef4444;
+        --radius: 24px;
+        --ring: #2563eb;
+        --primary-foreground: #ffffff;
+        --card: #FFFFFF;
+        --font-heading: 'Inter', sans-serif;
+        --muted: #F1F5F9; }
+    </style>
+  </head>
+  <body>
+<div class="min-h-screen w-full bg-background flex flex-col items-center justify-center relative font-sans p-6">
+  
+  <!-- Login Card -->
+  <div class="w-full max-w-[500px] bg-card rounded-[24px] shadow-[0_8px_24px_rgba(0,0,0,0.08)] flex flex-col p-10 gap-6">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-center gap-3 mb-2">
+      <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+        <iconify-icon icon="lucide:activity" class="text-xl"></iconify-icon>
+      </div>
+      <span class="text-[20px] font-semibold text-foreground tracking-tight">MediChat AI</span>
+    </div>
+
+    <!-- Title -->
+    <div class="text-center mb-2">
+      <h1 class="text-[32px] leading-tight font-bold text-foreground tracking-tight">Log In</h1>
+    </div>
+
+    <!-- Form -->
+    <div class="flex flex-col gap-6 w-full">
+      
+      <!-- Email Field -->
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium text-foreground ml-1">Email Address</label>
+        <div class="relative flex items-center">
+          <iconify-icon icon="lucide:mail" class="absolute left-4 text-muted-foreground text-lg"></iconify-icon>
+          <input type="email" id="email" placeholder="name@example.com" class="w-full h-14 pl-12 pr-4 rounded-xl border-none bg-muted text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-base">
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium text-foreground ml-1">Password</label>
+        <div class="relative flex items-center">
+          <iconify-icon icon="lucide:lock" class="absolute left-4 text-muted-foreground text-lg"></iconify-icon>
+          <input type="password" id="password" placeholder="••••••••" class="w-full h-14 pl-12 pr-4 rounded-xl border-none bg-muted text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-base tracking-widest font-mono">
+        </div>
+        <div class="mt-1 text-left">
+          <a href="#" class="text-sm text-muted-foreground hover:text-foreground transition-colors ml-1">Forgot Password?</a>
+        </div>
+      </div>
+      
+      <!-- Error message -->
+      <div id="errorMsg" class="text-red-500 text-sm hidden"></div>
+
+      <!-- Primary Button -->
+      <button id="loginBtn" class="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full text-base font-semibold shadow-sm transition-all mt-2 flex items-center justify-center gap-2">
+        Sign In &rarr;
+      </button>
+
+    </div>
+
+    <!-- Footer Text -->
+    <div class="text-center mt-2">
+      <p class="text-sm text-foreground">
+        Don't have an account? <a href="/Register.html" class="text-primary font-medium hover:underline">Sign Up</a>
+      </p>
+    </div>
+
+  </div>
+
+</div>
+<script src="/api.js"></script>
+<script>
+  document.getElementById('loginBtn').addEventListener('click', async () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const errorMsg = document.getElementById('errorMsg');
+    
+    if (!email || !password) {
+      errorMsg.textContent = "Please enter both email and password.";
+      errorMsg.classList.remove('hidden');
+      return;
+    }
+    
+    errorMsg.classList.add('hidden');
+    const btn = document.getElementById('loginBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = "Logging in...";
+    btn.disabled = true;
+
+    try {
+      await window.apiClient.login(email, password);
+      // Determine if admin or user to redirect correctly
+      const user = await window.apiClient.getMe();
+      if (user.is_superuser) {
+        window.location.href = '/AdminDashboard.html';
+      } else {
+        window.location.href = '/UserDashboard.html';
+      }
+    } catch (err) {
+      errorMsg.textContent = err.message || "Login failed. Check your credentials.";
+      errorMsg.classList.remove('hidden');
+    } finally {
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }
+  });
+</script>
+</body></html>

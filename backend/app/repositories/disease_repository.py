@@ -42,12 +42,13 @@ class DiseaseRepository:
 
     def search_diseases(self, query_str: str, limit: int = 10) -> list[dict[str, Any]]:
         """
-        Search for diseases by name or description.
+        Search for diseases by name, description, or ICD code.
         """
         query = """
         MATCH (d:Disease)
-        WHERE d.name CONTAINS $query 
-           OR d.description CONTAINS $query
+        WHERE toLower(d.name) CONTAINS toLower($query) 
+           OR toLower(coalesce(d.description, "")) CONTAINS toLower($query)
+           OR toLower(coalesce(d.icd_code, "")) CONTAINS toLower($query)
         RETURN 
             d.name AS name,
             d.description AS description,

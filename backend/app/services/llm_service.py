@@ -18,7 +18,8 @@ class LLMService:
         "2. Always include a disclaimer: 'This is not medical advice. Please consult a professional doctor.'.\n"
         "3. If severe symptoms are mentioned (e.g., chest pain, difficulty breathing), warn the user to seek emergency care immediately.\n"
         "4. Do not suggest specific dosages if they could be dangerous. Stick to general information.\n"
-        "5. Be concise and empathetic."
+        "5. Be concise and empathetic.\n"
+        "6. Cite sources explicitly: If you use information from the provided context, cite it by mentioning the name of the drug or disease in brackets, e.g., [Source: Neo4j - <Name>]."
     )
 
     def __init__(self):

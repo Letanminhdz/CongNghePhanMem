@@ -49,6 +49,7 @@ class ChatService:
                     "ingredients": [i["name"] for i in detail.get("ingredients", [])],
                     "manufacturers": [m["name"] for m in detail.get("manufacturers", [])]
                 })
+                sources.append(f"Neo4j: Drug - {detail.get('name')}")
                 if detail.get('warnings'):
                     warnings.append(f"Warning for {drug_name}: {detail['warnings']}")
 
@@ -64,9 +65,9 @@ class ChatService:
                     "description": detail.get("description"),
                     "symptoms": [s["name"] for s in detail.get("symptoms", [])]
                 })
+                sources.append(f"Neo4j: Disease - {detail.get('name')}")
 
         if found_data:
-            sources.append("Neo4j Knowledge Graph")
             # Use JSON for structured context
             context_str = json.dumps(context_data, indent=2, ensure_ascii=False)
             return context_str, sources, warnings
@@ -77,6 +78,28 @@ class ChatService:
         try:
             # 1. NER
             entities = ner_service.extract_entities(message)
+            
+            # Fallback if no entities detected (RAG keyword search fallback)
+            if not entities.get("drugs") and not entities.get("diseases"):
+                fallback_drugs = []
+                fallback_diseases = []
+                if not ner_service.drug_names:
+                    ner_service.refresh_entities()
+                words = [w for w in message.lower().split() if len(w) >= 3]
+                for w in words:
+                    for d_name in ner_service.drug_names:
+                        if w in d_name.lower() and d_name not in fallback_drugs:
+                            fallback_drugs.append(d_name)
+                    for dis_name in ner_service.disease_names:
+                        if w in dis_name.lower() and dis_name not in fallback_diseases:
+                            fallback_diseases.append(dis_name)
+                
+                entities = {
+                    "drugs": fallback_drugs[:2],
+                    "diseases": fallback_diseases[:2]
+                }
+                logger.info(f"Fallback RAG entities extracted: {entities}")
+
             all_entity_names = entities.get("drugs", []) + entities.get("diseases", [])
             logger.info(f"Detected entities: {entities}")
             

@@ -67,6 +67,14 @@ def update_current_user(
         current_user.full_name = user_update.full_name
     if user_update.is_active is not None:
         current_user.is_active = user_update.is_active
+    if user_update.email is not None:
+        existing_user = user_repository.get_user_by_email(db, email=user_update.email)
+        if existing_user and existing_user.id != current_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email already registered",
+            )
+        current_user.email = user_update.email
     
     db.add(current_user)
     db.commit()

@@ -140,11 +140,9 @@ class DrugRepository:
         if not drug_names or len(drug_names) < 2:
             return []
 
-        # Build the WHERE clause with drug names
-        drug_list = ",".join([f"'{name}'" for name in drug_names])
-        query = f"""
+        query = """
         MATCH (d:Drug)-[int:INTERACTS_WITH]->(d2:Drug)
-        WHERE d.name IN [{drug_list}] AND d2.name IN [{drug_list}]
+        WHERE d.name IN $drug_names AND d2.name IN $drug_names
         RETURN 
             d.name AS drug_1,
             d2.name AS drug_2,
@@ -152,7 +150,7 @@ class DrugRepository:
             int.description AS description
         """
         try:
-            results = self._repository.execute_read(query)
+            results = self._repository.execute_read(query, drug_names=drug_names)
             return results if results else []
         except Exception as exc:
             logger.error(f"Error checking multiple drug interactions: {exc}")

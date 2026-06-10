@@ -3,7 +3,7 @@ from app.services.ner_service import ner_service
 
 def test_normalization():
     assert ner_service._normalize_text("Paracetamol, 500mg!") == "paracetamol 500mg"
-    assert ner_service._normalize_text("Đau đầu chóng mặt?") == "đau đầu chóng mặt"
+    assert ner_service._normalize_text("Đau đầu chóng mặt?") == "dau dau chong mat"
 
 def test_levenshtein():
     # Exact match
@@ -23,10 +23,15 @@ def test_extract_entities_fuzzy():
     assert "Paracetamol" in result["drugs"]
     
     # Test Vietnamese fuzzy (simple)
-    result = ner_service.extract_entities("Tôi bị sot")
-    # Note: my implementation uses lowercase normalization, 
-    # but "sốt" in VNese might need better normalization if accents are stripped.
-    # For now, let's test a simple typo in a non-accented word or partial match.
     ner_service.disease_names.add("Sot")
     result = ner_service.extract_entities("Tôi bị sot")
     assert "Sot" in result["diseases"]
+
+def test_accent_insensitive_and_exact_extract():
+    ner_service.drug_names = {"Paracetamol", "Aspirin", "Ibuprofen"}
+    ner_service.disease_names = {"Đau đầu", "Cảm cúm", "Sốt xuất huyết"}
+    
+    # Accent-insensitive and exact match
+    result = ner_service.extract_entities("Tôi bị dau dau va muon uong paracetamol")
+    assert "Paracetamol" in result["drugs"]
+    assert "Đau đầu" in result["diseases"]
