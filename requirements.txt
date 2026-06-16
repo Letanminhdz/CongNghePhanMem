@@ -28,4 +28,4 @@ mypy>=1.8.0,<2.0.0
 coverage>=7.4.3,<8.0.0
 ruff>=0.2.2,<1.0.0
 deep-translator>=1.11.4
-sentence-transformers>=2.2.2
+sentence-transformers>=5.5.1
