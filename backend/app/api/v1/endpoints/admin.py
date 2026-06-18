@@ -10,6 +10,7 @@ from app.services.disease_lookup_service import disease_lookup_service
 from app.schemas.medicine import MedicineCreate, MedicineUpdate, MedicineDetailResponse
 from app.schemas.disease import DiseaseCreate, DiseaseUpdate, DiseaseDetailResponse
 from app.schemas.chat import AILogResponse
+from app.schemas.user import UserCreateAdmin, UserUpdateAdmin, UserRead, UserCreate
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -96,6 +97,73 @@ def admin_update_user_status(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
+
+
+@router.post("/users", response_model=UserRead)
+def admin_create_user(
+    user_in: UserCreateAdmin,
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[Session, Depends(get_db)]
+):
+    if not current_user.is_superuser:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    from app.repositories import user_repository
+    db_user = user_repository.get_user_by_email(db, email=user_in.email)
+    if db_user:
+        raise HTTPException(
+            status_code=400,
+            detail="The user with this username already exists in the system.",
+        )
+    user_create = UserCreate(
+        email=user_in.email,
+        full_name=user_in.full_name,
+        is_active=user_in.is_active,
+        password=user_in.password
+    )
+    return user_repository.create_user(db, user_in=user_create, is_superuser=user_in.is_superuser)
+
+
+@router.put("/users/{id}", response_model=UserRead)
+def admin_update_user(
+    id: int,
+    user_in: UserUpdateAdmin,
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[Session, Depends(get_db)]
+):
+    if not current_user.is_superuser:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    from app.repositories import user_repository
+    user = user_repository.get_user_by_id(db, id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    if user_in.full_name is not None:
+        user.full_name = user_in.full_name
+    if user_in.is_active is not None:
+        user.is_active = user_in.is_active
+    if user_in.is_superuser is not None:
+        user.is_superuser = user_in.is_superuser
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+@router.delete("/users/{id}")
+def admin_delete_user(
+    id: int,
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[Session, Depends(get_db)]
+):
+    if not current_user.is_superuser:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    from app.repositories import user_repository
+    user = user_repository.get_user_by_id(db, id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    db.delete(user)
+    db.commit()
+    return {"success": True}
+
 
 @router.get("/stats")
 def admin_get_stats(

@@ -14,9 +14,23 @@ class UserCreate(UserBase):
     password: str
 
 
+class UserCreateAdmin(BaseModel):
+    email: EmailStr
+    full_name: Optional[str] = None
+    is_active: bool = True
+    password: str
+    is_superuser: bool = False
+
+
 class UserUpdate(BaseModel):
     full_name: Optional[str] = None
     is_active: Optional[bool] = None
+
+
+class UserUpdateAdmin(BaseModel):
+    full_name: Optional[str] = None
+    is_active: Optional[bool] = None
+    is_superuser: Optional[bool] = None
 
 
 class UserRead(UserBase):
@@ -25,3 +39,4 @@ class UserRead(UserBase):
     is_superuser: bool = False
 
     model_config = {"from_attributes": True}
+

@@ -32,8 +32,10 @@ const getColorForId = (id) => {
 
 const getInitials = (name, email) => {
   if (name) {
-    const parts = name.split(' ');
-    if (parts.length > 1) return (parts[0][0] + parts[1][0]).toUpperCase();
+    const parts = name.trim().split(/\s+/);
+    if (parts.length > 1 && parts[0] && parts[1]) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
     return name.slice(0, 2).toUpperCase();
   }
   return email.slice(0, 2).toUpperCase();

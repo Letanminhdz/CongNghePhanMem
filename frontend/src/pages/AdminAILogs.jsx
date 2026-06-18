@@ -6,14 +6,11 @@ const AdminAILogs = () => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  // Model Config State
-  const [selectedModel, setSelectedModel] = useState('gemini-1.5-flash');
-  const [apiKey, setApiKey] = useState('');
-  const [quotaUsed, setQuotaUsed] = useState(0); // Real count
-  const [quotaPercent, setQuotaPercent] = useState(0);
-  const [configSaving, setConfigSaving] = useState(false);
-  const [testingConnection, setTestingConnection] = useState(false);
-  const [testResult, setTestResult] = useState(null);
+  // Model Config State (Read Only — SDK chưa hỗ trợ)
+  const [selectedModel] = useState('gemini-1.5-flash');
+  const [apiKey] = useState('••••••••••••');
+  const [quotaUsed] = useState(0);
+  const [quotaPercent] = useState(0);
 
 
   const fetchLogs = async (pageNum = 1) => {
@@ -25,24 +22,7 @@ const AdminAILogs = () => {
       } else {
         setLogs(prev => [...prev, ...(data.items || [])]);
       }
-      // Also fetch ai-config
-      try {
-        const token = localStorage.getItem('access_token');
-        const configRes = await fetch('http://localhost:8000/api/v1/admin/ai-config', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (configRes.ok) {
-          const config = await configRes.json();
-          if (config.model) setSelectedModel(config.model);
-          if (config.api_key) setApiKey(config.api_key);
-          if (config.quota_used !== undefined) {
-            setQuotaUsed(config.quota_used);
-            setQuotaPercent(Math.min(100, Math.round((config.quota_used / 30000) * 100)));
-          }
-        }
-      } catch (e) {
-        console.error("Failed to fetch ai config", e);
-      }
+      // ai-config: SDK chưa hỗ trợ, bỏ qua fetch
       setHasMore(data.items?.length === 10);
     } catch (err) {
       console.error('Failed to fetch AI logs', err);
@@ -66,56 +46,7 @@ const AdminAILogs = () => {
     return date.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
   };
 
-  const saveConfig = async () => {
-    try {
-      setConfigSaving(true);
-      setTestResult(null);
-      const token = localStorage.getItem('access_token');
-      const res = await fetch('http://localhost:8000/api/v1/admin/ai-config', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ model: selectedModel, api_key: apiKey })
-      });
-      if (res.ok) {
-        alert("Configuration saved successfully!");
-      } else {
-        alert("Failed to save configuration.");
-      }
-    } catch (e) {
-      alert("Error saving configuration.");
-    } finally {
-      setConfigSaving(false);
-    }
-  };
-
-  const testConnection = async () => {
-    if (!apiKey) {
-      alert("Please enter an API Key to test.");
-      return;
-    }
-    try {
-      setTestingConnection(true);
-      setTestResult(null);
-      const token = localStorage.getItem('access_token');
-      const res = await fetch('http://localhost:8000/api/v1/admin/ai-config/test', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ api_key: apiKey })
-      });
-      const data = await res.json();
-      setTestResult({ success: data.success, message: data.message });
-    } catch (e) {
-      setTestResult({ success: false, message: "Network error during test." });
-    } finally {
-      setTestingConnection(false);
-    }
-  };
+  // saveConfig & testConnection: bỏ — SDK chưa hỗ trợ, chế độ Read Only
 
   return (
     <>
@@ -149,8 +80,8 @@ const AdminAILogs = () => {
                   </div>
                   <select 
                     value={selectedModel}
-                    onChange={(e) => setSelectedModel(e.target.value)}
-                    className="w-full bg-background border border-input rounded-lg pl-10 py-2 text-sm text-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all appearance-none"
+                    disabled
+                    className="w-full bg-muted/50 border border-input rounded-lg pl-10 py-2 text-sm text-muted-foreground outline-none transition-all appearance-none cursor-not-allowed"
                   >
                     <option value="gemini-1.5-flash">Gemini 1.5 Flash (Google)</option>
                     <option value="gemini-1.5-pro">Gemini 1.5 Pro (Google)</option>
@@ -173,8 +104,8 @@ const AdminAILogs = () => {
                   <input 
                     type="password"
                     value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    className="w-full bg-background border border-input rounded-lg pl-10 pr-3 py-2 text-sm text-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                    disabled
+                    className="w-full bg-muted/50 border border-input rounded-lg pl-10 pr-3 py-2 text-sm text-muted-foreground outline-none transition-all cursor-not-allowed"
                     placeholder="Enter API Key"
                   />
                 </div>
@@ -206,13 +137,13 @@ const AdminAILogs = () => {
                   { label: 'Medication Interaction Check', checked: true, desc: 'Check Neo4j for drug interactions' },
                   { label: 'Web Search Fallback', checked: false, desc: 'Search web if DB fails' },
                 ].map((item) => (
-                  <label key={item.label} className="flex items-start justify-between cursor-pointer group">
+                  <label key={item.label} className="flex items-start justify-between group">
                     <div>
-                      <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">{item.label}</span>
+                      <span className="text-sm font-semibold text-foreground">{item.label}</span>
                       <p className="text-xs text-muted-foreground mt-0.5">{item.desc}</p>
                     </div>
-                    <div className="relative inline-flex items-center cursor-pointer mt-1">
-                      <input type="checkbox" className="sr-only peer" defaultChecked={item.checked} />
+                    <div className="relative inline-flex items-center mt-1 opacity-60 cursor-not-allowed">
+                      <input type="checkbox" className="sr-only peer" defaultChecked={item.checked} disabled />
                       <div className="w-9 h-5 bg-muted peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                     </div>
                   </label>
@@ -220,28 +151,26 @@ const AdminAILogs = () => {
               </div>
             </div>
             
-            {testResult && (
-              <div className={`mt-4 p-3 rounded-lg flex items-center gap-2 text-sm ${testResult.success ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
-                <iconify-icon icon={testResult.success ? "lucide:check-circle" : "lucide:alert-circle"}></iconify-icon>
-                <span>{testResult.message}</span>
-              </div>
-            )}
           </div>
-          <div className="mt-6 pt-5 border-t border-border flex justify-end gap-3">
-            <button 
-              onClick={testConnection}
-              disabled={testingConnection}
-              className="px-5 py-2 rounded-lg text-sm font-medium border border-border text-foreground hover:bg-muted transition-colors disabled:opacity-50"
-            >
-              {testingConnection ? 'Testing...' : 'Test Connection'}
-            </button>
-            <button 
-              onClick={saveConfig}
-              disabled={configSaving}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-5 py-2 rounded-lg text-sm font-medium shadow-sm transition-colors flex items-center gap-2 disabled:opacity-50"
-            >
-              <iconify-icon icon="lucide:save"></iconify-icon> {configSaving ? 'Saving...' : 'Save Configuration'}
-            </button>
+          <div className="mt-6 pt-5 border-t border-border flex items-center justify-between">
+            <span className="text-xs text-muted-foreground flex items-center gap-1.5">
+              <iconify-icon icon="lucide:lock" class="text-sm"></iconify-icon>
+              Read Only — SDK chưa hỗ trợ chỉnh sửa
+            </span>
+            <div className="flex gap-3">
+              <button 
+                disabled
+                className="px-5 py-2 rounded-lg text-sm font-medium border border-border text-muted-foreground opacity-50 cursor-not-allowed"
+              >
+                Test Connection
+              </button>
+              <button 
+                disabled
+                className="bg-primary/50 text-primary-foreground px-5 py-2 rounded-lg text-sm font-medium shadow-sm flex items-center gap-2 opacity-50 cursor-not-allowed"
+              >
+                <iconify-icon icon="lucide:save"></iconify-icon> Save Configuration
+              </button>
+            </div>
           </div>
         </div>
 
@@ -286,9 +215,9 @@ const AdminAILogs = () => {
               <h2 className="text-lg font-heading font-semibold text-foreground flex items-center gap-2">
                 <iconify-icon icon="lucide:message-square-plus" class="text-primary"></iconify-icon> Standard Disclaimers
               </h2>
-              <button className="text-sm text-primary font-medium hover:underline flex items-center gap-1">
-                <iconify-icon icon="lucide:plus"></iconify-icon> Add New
-              </button>
+              <span className="text-xs text-muted-foreground flex items-center gap-1">
+                <iconify-icon icon="lucide:lock" class="text-sm"></iconify-icon> Read Only
+              </span>
             </div>
             <div className="p-6 space-y-4">
               {[
@@ -299,10 +228,6 @@ const AdminAILogs = () => {
                   <div>
                     <h4 className="text-sm font-semibold text-foreground mb-1">{d.title}</h4>
                     <p className="text-xs text-muted-foreground">{d.text}</p>
-                  </div>
-                  <div className="flex gap-2 flex-shrink-0">
-                    <button className="p-1.5 text-muted-foreground hover:text-primary transition-colors"><iconify-icon icon="lucide:pencil"></iconify-icon></button>
-                    <button className="p-1.5 text-muted-foreground hover:text-destructive transition-colors"><iconify-icon icon="lucide:trash-2"></iconify-icon></button>
                   </div>
                 </div>
               ))}

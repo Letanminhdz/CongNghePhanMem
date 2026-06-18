@@ -103,7 +103,7 @@ const AdminReports = () => {
     }
 
     return () => { chartsRef.current.forEach(c => c && c.destroy()); };
-  }, [loading, realStats.aiQueries]);
+  }, [loading, realStats.aiQueries, realStats.topMedicines]);
 
   const stats = [
     { label: 'Total Consultations', value: loading ? '...' : realStats.aiQueries.toLocaleString(), icon: 'lucide:message-square', iconBg: 'bg-primary/10 text-primary', trend: '+12.5%' },
@@ -116,12 +116,58 @@ const AdminReports = () => {
     return date.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
   };
 
+  const handleExportCSV = () => {
+    const csvRows = [];
+    
+    // Header section
+    csvRows.push("SECTION,KEY,VALUE");
+    csvRows.push(`Summary,Total Users,${realStats.totalUsers}`);
+    csvRows.push(`Summary,Total Consultations,${realStats.aiQueries}`);
+    csvRows.push(`Summary,Database Size (Meds + Diseases),${realStats.medicineDb}`);
+    csvRows.push("");
+    
+    // Top Medicines section
+    csvRows.push("TOP SEARCHED MEDICINES,Name,Search Count");
+    if (realStats.topMedicines && realStats.topMedicines.length > 0) {
+      realStats.topMedicines.forEach(m => {
+        const name = (m.name || "").replace(/"/g, '""');
+        csvRows.push(`, "${name}", ${m.count}`);
+      });
+    } else {
+      csvRows.push(",No data,0");
+    }
+    csvRows.push("");
+    
+    // Recent Logs section
+    csvRows.push("RECENT AI ACTIVITY LOGS,Topic/Intent,Created At,Status");
+    if (logs && logs.length > 0) {
+      logs.forEach(log => {
+        const topic = (log.intent || 'Unknown Topic').replace(/"/g, '""');
+        const time = log.created_at ? new Date(log.created_at).toLocaleString() : '';
+        csvRows.push(`, "${topic}", "${time}", Success`);
+      });
+    } else {
+      csvRows.push(",No logs found,,");
+    }
+
+    const csvContent = "\uFEFF" + csvRows.join("\n");
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `medical_chatbot_report_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <h1 className="text-xl font-heading font-semibold text-foreground">Reports & Statistics</h1>
         <div className="flex items-center gap-4">
-          <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-colors flex items-center gap-2">
+          <button onClick={handleExportCSV} className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-colors flex items-center gap-2">
             <iconify-icon icon="lucide:download"></iconify-icon> Export Report
           </button>
         </div>

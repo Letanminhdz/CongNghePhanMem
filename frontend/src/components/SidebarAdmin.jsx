@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
 
 const SidebarAdmin = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useUser();
+
   const isActive = (path) => location.pathname === path;
   const getLinkClass = (path) => {
     const base = "flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors";
@@ -10,6 +14,12 @@ const SidebarAdmin = () => {
       ? `${base} bg-primary/10 text-primary`
       : `${base} text-muted-foreground hover:bg-secondary hover:text-foreground`;
   };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <aside className="w-64 bg-card border-r border-border flex flex-col hidden md:flex h-screen sticky top-0">
       <div className="h-16 flex items-center px-6 border-b border-border">
@@ -52,10 +62,13 @@ const SidebarAdmin = () => {
           <iconify-icon icon="lucide:settings" class="text-lg"></iconify-icon>
           Settings
         </Link>
-        <Link to="/login" className="flex items-center gap-3 px-3 py-2.5 text-destructive hover:bg-destructive/10 rounded-lg font-medium transition-colors mt-1">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 px-3 py-2.5 text-destructive hover:bg-destructive/10 rounded-lg font-medium transition-colors mt-1 w-full"
+        >
           <iconify-icon icon="lucide:log-out" class="text-lg"></iconify-icon>
           Log Out
-        </Link>
+        </button>
       </div>
     </aside>
   );

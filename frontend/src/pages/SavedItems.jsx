@@ -131,6 +131,12 @@ const SavedItems = () => {
           >
             Medicines ({savedMedicines.length})
           </button>
+          <button
+            onClick={() => setActiveTab('diseases')}
+            className={`px-6 py-3 font-medium text-sm border-b-2 transition-colors ${activeTab === 'diseases' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'}`}
+          >
+            Diseases ({savedDiseases.length})
+          </button>
         </div>
       </div>
 
@@ -202,7 +208,7 @@ const SavedItems = () => {
               <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">{d.desc}</p>
               <div className="flex flex-wrap gap-1.5 mb-6">
                 {d.symptoms.map((s) => (
-                  <span key={s} className="px-2 py-1 bg-secondary text-secondary-foreground text-[10px] font-medium rounded-md">{s}</span>
+                  <span key={s.name || s} className="px-2 py-1 bg-secondary text-secondary-foreground text-[10px] font-medium rounded-md">{s.name || s}</span>
                 ))}
               </div>
               <button

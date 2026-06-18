@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthService } from '../client';
 import { useUser } from '../context/UserContext';
@@ -6,11 +6,18 @@ import { useUser } from '../context/UserContext';
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { fetchUser } = useUser();
+  const { user, loading: userLoading, fetchUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // Nếu đã đăng nhập, tự chuyển hướng theo vai trò
+  useEffect(() => {
+    if (!userLoading && user) {
+      navigate(user.is_superuser ? '/admin' : '/app', { replace: true });
+    }
+  }, [user, userLoading, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -31,15 +38,7 @@ const Login = () => {
       if (from && from !== '/login') {
         navigate(from, { replace: true });
       } else {
-        // fetchUser updates context, we need to read from localStorage for redirect
-        // Get user info from API to decide redirect
-        try {
-          const { UsersService } = await import('../client');
-          const me = await UsersService.readCurrentUserApiV1UsersMeGet();
-          navigate(me.is_superuser ? '/admin' : '/app', { replace: true });
-        } catch {
-          navigate('/app', { replace: true });
-        }
+        navigate(userData?.is_superuser ? '/admin' : '/app', { replace: true });
       }
     } catch (err) {
       setError('Email or password is incorrect. Please try again.');

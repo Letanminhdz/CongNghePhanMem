@@ -11,15 +11,17 @@ export const UserProvider = ({ children }) => {
     const token = localStorage.getItem('access_token');
     if (!token) {
       setLoading(false);
-      return;
+      return null;
     }
     try {
       const data = await UsersService.readCurrentUserApiV1UsersMeGet();
       setUser(data);
+      return data;
     } catch (err) {
       console.error('Failed to fetch current user', err);
       localStorage.removeItem('access_token');
       setUser(null);
+      return null;
     } finally {
       setLoading(false);
     }

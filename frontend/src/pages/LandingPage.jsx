@@ -13,10 +13,17 @@ const colorMap = {
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { user, loading: userLoading } = useUser();
   const [query, setQuery] = useState('');
+
+  // Admin đã đăng nhập → chuyển thẳng đến trang quản trị
+  useEffect(() => {
+    if (!userLoading && user?.is_superuser) {
+      navigate('/admin', { replace: true });
+    }
+  }, [user, userLoading, navigate]);
   const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchTimeoutRef = useRef(null);
@@ -47,7 +54,7 @@ const LandingPage = () => {
     setQuery(searchQuery);
     setShowSuggestions(false);
     if (!searchQuery.trim()) return;
-    setLoading(true);
+    setSearchLoading(true);
     try {
       const response = await MedicinesService.searchMedicinesApiV1MedicinesSearchGet({ q: searchQuery.trim(), limit: 9, skip: 0 });
       setSearchResults(response.items || []);
@@ -59,7 +66,7 @@ const LandingPage = () => {
       console.error(err);
       setSearchResults([]);
     } finally {
-      setLoading(false);
+      setSearchLoading(false);
     }
   };
 
@@ -125,10 +132,10 @@ const LandingPage = () => {
                 )}
                 <button 
                   onClick={() => handleSearch()} 
-                  disabled={loading} 
+                  disabled={searchLoading} 
                   className="absolute right-3 top-1/2 -translate-y-1/2 bg-primary text-primary-foreground px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors z-10"
                 >
-                  {loading ? 'Searching...' : 'Search'}
+                  {searchLoading ? 'Searching...' : 'Search'}
                 </button>
               </div>
             </div>
