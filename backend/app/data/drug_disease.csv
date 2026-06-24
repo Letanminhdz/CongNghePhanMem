@@ -1,0 +1,46 @@
+drug_name,disease_name
+Tylenol,Headache
+Tylenol,Fever
+Advil,Headache
+Advil,Fever
+Advil,Common Cold
+Aspirin,Headache
+Aspirin,Blood Clot
+Lipitor,Hyperlipidemia
+Nexium,GERD
+Singulair,Asthma
+Singulair,Common Cold
+Humira,Rheumatoid Arthritis
+Januvia,Type 2 Diabetes
+Synthroid,Hypothyroidism
+Crestor,Hyperlipidemia
+Ventolin,Asthma
+Xanax,Anxiety Disorder
+Zoloft,Depression
+Zoloft,Anxiety Disorder
+Prozac,Depression
+Prozac,Anxiety Disorder
+Metformin,Type 2 Diabetes
+Lisinopril,Hypertension
+Amlodipine,Hypertension
+Warfarin,Blood Clot
+Plavix,Blood Clot
+Amoxicillin,Bacterial Infection
+Diovan,Hypertension
+Diovan,Heart Failure
+
+Sumatriptan,Migraine
+Gabapentin,Neuropathic Pain
+Prednisone,Asthma
+Oseltamivir,Influenza
+Valsartan,Hypertension
+Ciprofloxacin,Bacterial Infection
+Loratadine,Allergic Rhinitis
+Cetirizine,Allergic Rhinitis
+Furosemide,Heart Failure
+Naproxen,Osteoarthritis
+Clindamycin,Bacterial Infection
+Prednisolone,Asthma
+Dextromethorphan,Influenza
+Losartan,Hypertension
+Prednisolone,Ulcerative Colitis

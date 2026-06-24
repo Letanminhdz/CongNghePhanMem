@@ -1,0 +1,28 @@
+drug_1,drug_2,severity,description
+Warfarin,Aspirin,High,Combined use can increase bleeding risk
+Warfarin,Plavix,High,Combined anticoagulant and antiplatelet therapy can increase bleeding risk
+Aspirin,Plavix,Medium,Combined antiplatelet effect can increase bleeding risk
+Advil,Warfarin,High,NSAIDs may increase bleeding risk with warfarin
+Advil,Aspirin,Medium,Concurrent NSAID use can increase stomach bleeding risk
+Prozac,Zoloft,High,Combined SSRI therapy can increase serotonin syndrome risk
+Prozac,Xanax,Medium,May increase sedation and central nervous system effects
+Zoloft,Xanax,Medium,May increase sedation and psychomotor impairment
+Lipitor,Crestor,High,Concurrent statin use can increase muscle toxicity risk
+Lisinopril,Diovan,High,Combined renin angiotensin system blockade can increase kidney and potassium risk
+Amlodipine,Lisinopril,Low,Combination may have additive blood pressure lowering effects
+
+Sumatriptan,Warfarin,Medium,May increase bleeding risk when used with anticoagulants
+Prednisone,Warfarin,High,Prednisone may alter warfarin metabolism and affect anticoagulation
+Gabapentin,Xanax,Medium,May increase sedation and dizziness
+Valsartan,Lisinopril,High,Combined use may increase hypotension and kidney impairment
+Oseltamivir,Amoxicillin,Low,May be co-administered safely but monitor for gastrointestinal symptoms
+Ciprofloxacin,Warfarin,High,May increase warfarin levels and bleeding risk
+Loratadine,Albuterol,Low,Usually safe combination for allergy and asthma symptoms
+Cetirizine,Alcohol,High,Combination may increase sedation and respiratory depression
+Furosemide,Prednisone,Medium,May increase fluid retention and blood pressure
+Naproxen,Warfarin,High,NSAID use with warfarin increases bleeding risk
+Clindamycin,Amoxicillin,Low,Generally safe but monitor for gastrointestinal symptoms
+Prednisolone,Oseltamivir,Low,May blunt immune response during viral infection
+Dextromethorphan,Xanax,Medium,May increase sedation and dizziness
+Losartan,Lisinopril,High,Combined renin-angiotensin blockade may increase hypotension and kidney effects
+Amoxicillin,Warfarin,Medium,May increase bleeding risk due to antibiotic and anticoagulant interaction

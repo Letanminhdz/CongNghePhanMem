@@ -1,0 +1,37 @@
+name,brand_name,generic_name,purpose,indications,warnings,dosage,contraindications,adverse_reactions
+Tylenol,Tylenol,Acetaminophen,Pain reliever and fever reducer,Temporary relief of minor aches and fever,Liver warning with high doses,Take as directed on label,Hypersensitivity to acetaminophen,Nausea stomach pain rash
+Advil,Advil,Ibuprofen,Pain reliever and fever reducer,Relief of minor aches pain and fever,Stomach bleeding warning,Take as directed on label,Hypersensitivity to ibuprofen,Upset stomach nausea heartburn
+Aspirin,Bayer Aspirin,Aspirin,Pain reliever and antiplatelet,Relief of headache and prevention of blood clots,Bleeding risk and Reye syndrome warning,Take as directed by doctor,Hypersensitivity to salicylates,Stomach pain ringing in ears bleeding
+Lipitor,Lipitor,Atorvastatin,Cholesterol management,Reduction of elevated LDL cholesterol,Liver problem and muscle problem warning,10 to 20 mg once daily,Active liver disease,Muscle pain diarrhea sore throat
+Nexium,Nexium,Esomeprazole,Acid reducer,Treatment of gastroesophageal reflux disease,Kidney problem warning,20 to 40 mg once daily,Hypersensitivity to esomeprazole,Headache diarrhea nausea
+Singulair,Singulair,Montelukast,Asthma and allergy relief,Prevention and treatment of asthma and allergic rhinitis,Serious mental health side effects warning,10 mg once daily in evening,Hypersensitivity to montelukast,Upper respiratory infection fever sore throat
+Humira,Humira,Adalimumab,Anti inflammatory,Treatment of rheumatoid arthritis psoriasis and Crohn disease,Serious infection warning,40 mg injection every other week,Hypersensitivity to adalimumab,Injection site redness rash swelling
+Januvia,Januvia,Sitagliptin,Diabetes management,Treatment of type 2 diabetes mellitus,Pancreatitis warning,100 mg once daily,Hypersensitivity to sitagliptin,Upper respiratory infection headache sore throat
+Synthroid,Synthroid,Levothyroxine,Thyroid hormone replacement,Treatment of hypothyroidism,Not for weight loss,Take once daily on empty stomach,Uncorrected adrenal insufficiency,Heat intolerance tremor nervousness
+Crestor,Crestor,Rosuvastatin,Cholesterol management,Reduction of LDL cholesterol,Muscle problem warning,5 to 40 mg once daily,Active liver disease or pregnancy,Headache muscle aches nausea
+Ventolin,Ventolin,Albuterol,Bronchodilator,Treatment of bronchospasm in asthma and COPD,Paradoxical bronchospasm warning,2 inhalations every 4 to 6 hours,Hypersensitivity to albuterol,Tremor nervousness rapid heart rate
+Xanax,Xanax,Alprazolam,Anxiety relief,Treatment of anxiety disorder and panic disorder,Respiratory depression risk with opioids,0.25 to 0.5 mg three times daily,Acute narrow angle glaucoma,Drowsiness dry mouth constipation
+Zoloft,Zoloft,Sertraline,Antidepressant,Treatment of depression panic disorder and social anxiety disorder,Suicidal thoughts warning,50 mg once daily,Concomitant use of MAOIs,Nausea diarrhea insomnia dizziness
+Prozac,Prozac,Fluoxetine,Antidepressant,Treatment of depression and obsessive compulsive disorder,Serotonin syndrome warning,20 mg once daily,Concomitant use of MAOIs,Nausea insomnia anxiety tremor
+Metformin,Glucophage,Metformin,Diabetes management,Treatment of type 2 diabetes mellitus,Lactic acidosis warning,500 mg twice daily with meals,Severe renal impairment,Nausea vomiting diarrhea
+Lisinopril,Zestril,Lisinopril,Blood pressure management,Treatment of hypertension and heart failure,Fetal toxicity warning,10 mg once daily,History of angioedema,Dizziness dry cough fatigue
+Amlodipine,Norvasc,Amlodipine,Blood pressure management,Treatment of hypertension and coronary artery disease,Worsening chest pain warning,5 mg once daily,Hypersensitivity to amlodipine,Swelling dizziness flushing
+Warfarin,Coumadin,Warfarin,Anticoagulant,Prevention and treatment of blood clots,Major bleeding warning,Dose adjusted by INR,Pregnancy and active bleeding,Unexpected bleeding easy bruising
+Plavix,Plavix,Clopidogrel,Antiplatelet,Reduction of risk of heart attack and stroke,Bleeding warning,75 mg once daily,Active pathological bleeding,Bleeding bruising itching
+Amoxicillin,Amoxil,Amoxicillin,Antibiotic,Treatment of bacterial infections,Serious allergic reaction warning,250 to 500 mg every 8 hours,Hypersensitivity to penicillins,Nausea vomiting diarrhea
+Diovan,Diovan,Valsartan,Blood pressure management,Treatment of hypertension and heart failure,Fetal toxicity warning,80 to 160 mg once daily,Pregnancy and hypersensitivity,Dizziness fatigue abdominal pain
+
+Sumatriptan,Imitrex,Sumatriptan,Migraine relief,Treatment of acute migraine attacks,Do not use with MAO inhibitors,50 mg at onset,Cardiovascular disease,Dizziness nausea fatigue
+Gabapentin,Neurontin,Gabapentin,Neuropathic pain relief,Treatment of neuropathic pain and seizures,Drowsiness and dizziness,300 mg three times daily,History of substance abuse,Drowsiness dizziness swelling
+Prednisone,Deltasone,Prednisone,Anti-inflammatory and immunosuppressant,Treatment of asthma exacerbations and autoimmune conditions,Increased infection risk and adrenal suppression,5 to 60 mg once daily,Active systemic infections,Fluid retention weight gain high blood pressure
+Oseltamivir,Tamiflu,Oseltamivir,Antiviral,Treatment and prophylaxis of influenza,Neuropsychiatric events reported,75 mg twice daily for 5 days,Severe renal impairment,Nausea vomiting headache
+Valsartan,Diovan,Valsartan,Blood pressure management,Treatment of hypertension and heart failure,Hyperkalemia risk,Fetal toxicity warning,80 mg once daily, dizziness fatigue cough
+Ciprofloxacin,Cipro,Ciprofloxacin,Antibiotic,Treatment of bacterial infections,May cause tendon rupture,250-750 mg twice daily,History of myasthenia gravis,Nausea diarrhea tendon pain
+Loratadine,Claritin,Loratadine,Antihistamine,Treatment of allergic rhinitis and urticaria,Minimal sedation risk,10 mg once daily,Severe kidney disease,Drowsiness dry mouth
+Cetirizine,Zyrtec,Cetirizine,Antihistamine,Treatment of allergic symptoms,May cause drowsiness,10 mg once daily,Severe kidney disease,Drowsiness dry mouth fatigue
+Furosemide,Lasix,Furosemide,Diuretic,Treatment of edema and hypertension,Electrolyte disturbance risk,20-80 mg once daily,Anuria,Frequent urination dizziness muscle cramps
+Naproxen,Aleve,Naproxen,NSAID,Relief of pain and inflammation,GI bleeding risk,220-550 mg twice daily,Active peptic ulcer,Stomach pain heartburn headache
+Clindamycin,Cleocin,Clindamycin,Antibiotic,Treatment of bacterial infections,Colitis warning,150-450 mg every 6 hours,Hypersensitivity to clindamycin,Diarrhea abdominal pain rash
+Prednisolone,Prelone,Prednisolone,Anti-inflammatory and immunosuppressant,Treatment of asthma exacerbations and autoimmune disease,Increased infection risk,5-60 mg once daily,Active infection,Weight gain mood changes insomnia
+Dextromethorphan,Robitussin,Dextromethorphan,Cough suppressant,Relief of cough due to throat irritation,Do not combine with MAOIs,10-20 mg every 4 hours,Use with CNS depressants,Drowsiness dizziness nausea
+Losartan,Cozaar,Losartan,Antihypertensive,Treatment of hypertension and diabetic nephropathy,Hyperkalemia risk,50 mg once daily,Pregnancy,Dizziness fatigue cough
